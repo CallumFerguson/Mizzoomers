@@ -4,6 +4,7 @@
     <e p="C:\Users\Callum\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
     <e p="C:\Users\Callum\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Mizzoomers.1580131797.00" t="ExcludeRecursive" />
     <e p="C:\Users\Callum\Documents\git\Mizzoomers" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="DebugDrawingExtension" t="Include">
@@ -400,6 +401,32 @@
               </e>
             </e>
           </e>
+        </e>
+        <e p="Smooth Sync" t="Include">
+          <e p="Common" t="Include">
+            <e p="Required Internal Use Scripts" t="Include">
+              <e p="Half.cs" t="Include" />
+              <e p="HalfHelper.cs" t="Include" />
+              <e p="MsgType.cs" t="Include" />
+              <e p="SyncMode.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Mirror" t="Include">
+            <e p="Server Authoritative" t="Include">
+              <e p="ServerAuthorityExamplePlayerController.cs" t="Include" />
+            </e>
+            <e p="Smooth Sync Asset" t="Include">
+              <e p="Editor" t="Include">
+                <e p="SmoothSyncMirrorEditor.cs" t="Include" />
+              </e>
+              <e p="SmoothSyncMirror.cs" t="Include" />
+              <e p="StateMirror.cs" t="Include" />
+            </e>
+            <e p="Smooth Sync Example Scene" t="Include">
+              <e p="SmoothSyncMirrorExamplePlayerController.cs" t="Include" />
+            </e>
+          </e>
+          <e p="README.txt" t="Include" />
         </e>
       </e>
       <e p="kcp2k.csproj" t="IncludeRecursive" />

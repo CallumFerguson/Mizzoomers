@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target;
+    private Transform target;
 
     void Update()
     {
-        var targetPosition = target.position;
-        targetPosition.y = 1f;
-        transform.position = targetPosition;
+        if (target)
+        {
+            var targetPosition = target.position;
+            targetPosition.y = 1f;
+            transform.position = targetPosition;
+        }
+        else if (HighGroundPlayerController.localPlayer)
+        {
+            target = HighGroundPlayerController.localPlayer.transform;
+        }
     }
 }

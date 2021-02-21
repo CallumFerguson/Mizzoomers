@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class HighGroundPlayerController : MonoBehaviour
+public class HighGroundPlayerController : NetworkBehaviour
 {
+    public static HighGroundPlayerController localPlayer;
+    
     private Rigidbody _body;
 
     private const float TargetSpeed = 7.5f;
-    private const float MaxVelocityChange = 1f;
+    private const float MaxVelocityChange = 1.25f;
     private const float MaxFallSpeed = 10f;
 
     private float _lastJumpTime;
@@ -20,12 +23,33 @@ public class HighGroundPlayerController : MonoBehaviour
     void Start()
     {
         _body = GetComponent<Rigidbody>();
-
         _allButPlayerMask = ~LayerMask.GetMask("Player");
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        
+        if(!_body)
+            _body = GetComponent<Rigidbody>();
+        
+        _body.isKinematic = !isLocalPlayer;
+
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
+        localPlayer = this;
     }
 
     void Update()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+        
         if (Input.GetKey(KeyCode.Space) && Time.time - _lastJumpTime >= JumpCooldown && Grounded())
         {
             _lastJumpTime = Time.time;
@@ -37,6 +61,11 @@ public class HighGroundPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+        
         var targetDirection = GetTargetDirection();
         targetDirection.y = 0;
         var targetVelocity = targetDirection * TargetSpeed;
@@ -48,7 +77,7 @@ public class HighGroundPlayerController : MonoBehaviour
 
         _body.velocity += velocityDifference;
 
-        if (!Input.GetKey(KeyCode.Space) && !Grounded())
+        if (!Input.GetKey(KeyCode.Space) && !Grounded() || _body.velocity.y <= 0)
         {
             _body.velocity += 25f * Time.deltaTime * Vector3.down;
         }
