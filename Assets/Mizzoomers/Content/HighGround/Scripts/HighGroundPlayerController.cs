@@ -7,32 +7,41 @@ using UnityEngine;
 public class HighGroundPlayerController : NetworkBehaviour
 {
     public static HighGroundPlayerController localPlayer;
-    
+
     private Rigidbody _body;
 
     private const float TargetSpeed = 7.5f;
     private const float MaxVelocityChange = 1.25f;
     private const float MaxFallSpeed = 10f;
 
-    private float _lastJumpTime;
+    private float _lastJumpTime = -JumpCooldown;
     private const float JumpCooldown = 0.5f;
     private const float JumpVelocity = 10f;
 
+    private float _lastPushTime = -PushCooldown;
+    private const float PushCooldown = 0.3f;
+    private const float PushRadius = 3f / 2f;
+
+    private float _lastBlockTime = -BlockCooldown;
+    private const float BlockCooldown = 0.3f;
+
+    private int _playerMask;
     private int _allButPlayerMask;
 
     void Start()
     {
         _body = GetComponent<Rigidbody>();
-        _allButPlayerMask = ~LayerMask.GetMask("Player");
+        _playerMask = LayerMask.GetMask("Player");
+        _allButPlayerMask = ~_playerMask;
     }
 
     public override void OnStartClient()
     {
         base.OnStartClient();
-        
-        if(!_body)
+
+        if (!_body)
             _body = GetComponent<Rigidbody>();
-        
+
         _body.isKinematic = !isLocalPlayer;
 
         if (!isLocalPlayer)
@@ -49,13 +58,28 @@ public class HighGroundPlayerController : NetworkBehaviour
         {
             return;
         }
-        
+
+        //jump
         if (Input.GetKey(KeyCode.Space) && Time.time - _lastJumpTime >= JumpCooldown && Grounded())
         {
             _lastJumpTime = Time.time;
             var velocity = _body.velocity;
             velocity.y = JumpVelocity;
             _body.velocity = velocity;
+        }
+
+        //push
+        if (Input.GetKeyDown(KeyCode.J) && Time.time - _lastPushTime >= PushCooldown)
+        {
+            _lastPushTime = Time.time;
+            CmdPushPlayers();
+        }
+
+        //block
+        if (Input.GetKeyDown(KeyCode.K) && Time.time - _lastBlockTime >= BlockCooldown)
+        {
+            _lastBlockTime = Time.time;
+            CmdBlock();
         }
     }
 
@@ -65,7 +89,7 @@ public class HighGroundPlayerController : NetworkBehaviour
         {
             return;
         }
-        
+
         var targetDirection = GetTargetDirection();
         targetDirection.y = 0;
         var targetVelocity = targetDirection * TargetSpeed;
@@ -86,6 +110,39 @@ public class HighGroundPlayerController : NetworkBehaviour
         {
             _body.velocity = new Vector3(_body.velocity.x, -MaxFallSpeed, _body.velocity.z);
         }
+    }
+
+    [Command]
+    private void CmdPushPlayers()
+    {
+        var hits = Physics.OverlapSphere(connectionToClient.identity.transform.position, PushRadius, _playerMask);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            var hit = hits[i].attachedRigidbody;
+            if (hit)
+            {
+                var hitIdentity = hit.GetComponent<NetworkIdentity>();
+                if (hitIdentity && hitIdentity != netIdentity)
+                {
+                    var hitController = hit.GetComponent<HighGroundPlayerController>();
+                    if (hitController && hitIdentity.connectionToClient != null)
+                    {
+                        hitController.RpcGetPushed(hitIdentity.connectionToClient);
+                    }
+                }
+            }
+        }
+    }
+
+    [TargetRpc]
+    private void RpcGetPushed(NetworkConnection target)
+    {
+        print("I got pushed");
+    }
+
+    [Command]
+    private void CmdBlock()
+    {
     }
 
     private bool Grounded()

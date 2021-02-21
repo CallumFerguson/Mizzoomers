@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d78ae2ab-4041-416c-9e7c-4c23b23fa941" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/CameraFollow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/CameraFollow.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/HighGround.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/HighGround.unity" afterDir="false" />
     </list>
@@ -16,12 +16,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/CameraFollow.cs" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1nqIzRFVBPMMa26K1BAt52EYfO3" />
@@ -31,6 +33,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -66,7 +69,7 @@
       <option name="presentableId" value="Default" />
       <updated>1612111458898</updated>
       <workItem from="1612111463348" duration="4464000" />
-      <workItem from="1613929637840" duration="660000" />
+      <workItem from="1613929637840" duration="3646000" />
     </task>
     <servers />
   </component>
