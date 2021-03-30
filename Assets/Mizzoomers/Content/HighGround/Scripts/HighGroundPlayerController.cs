@@ -10,13 +10,13 @@ public class HighGroundPlayerController : NetworkBehaviour
 
     private Rigidbody _body;
 
-    private const float TargetSpeed = 7.5f;
+    private const float TargetSpeed = 5f;
     private const float MaxVelocityChange = 1.25f;
-    private const float MaxFallSpeed = 10f;
+    private const float MaxFallSpeed = 25f;
 
     private float _lastJumpTime = -JumpCooldown;
     private const float JumpCooldown = 0.5f;
-    private const float JumpVelocity = 10f;
+    private const float JumpVelocity = 5f;
 
     private float _lastPushTime = -PushCooldown;
     private const float PushCooldown = 0.3f;
@@ -28,11 +28,20 @@ public class HighGroundPlayerController : NetworkBehaviour
     private int _playerMask;
     private int _allButPlayerMask;
 
+    private Animator _playerAnimator;
+    private int _isRunningHash;
+    private int _inAirHash;
+    private int _jumpHash;
+
     void Start()
     {
         _body = GetComponent<Rigidbody>();
         _playerMask = LayerMask.GetMask("Player");
         _allButPlayerMask = ~_playerMask;
+        _playerAnimator = GetComponentInChildren<Animator>();
+        _isRunningHash = Animator.StringToHash("isRunning");
+        _inAirHash = Animator.StringToHash("inAir");
+        _jumpHash = Animator.StringToHash("jump");
     }
 
     public override void OnStartClient()
@@ -59,13 +68,18 @@ public class HighGroundPlayerController : NetworkBehaviour
             return;
         }
 
+        var grounded = Grounded();
+        _playerAnimator.SetBool(_inAirHash, !grounded);
+
         //jump
-        if (Input.GetKey(KeyCode.Space) && Time.time - _lastJumpTime >= JumpCooldown && Grounded())
+        if (Input.GetKey(KeyCode.Space) && Time.time - _lastJumpTime >= JumpCooldown && grounded)
         {
             _lastJumpTime = Time.time;
             var velocity = _body.velocity;
             velocity.y = JumpVelocity;
             _body.velocity = velocity;
+            
+            _playerAnimator.SetTrigger(_jumpHash);
         }
 
         //push
@@ -81,6 +95,18 @@ public class HighGroundPlayerController : NetworkBehaviour
             _lastBlockTime = Time.time;
             CmdBlock();
         }
+
+
+        var horizontalVelocity = _body.velocity;
+        horizontalVelocity.y = 0;
+        var mag = horizontalVelocity.magnitude;
+
+        if (mag > 0.001f)
+        {
+            transform.rotation = Quaternion.LookRotation(horizontalVelocity);
+        }
+
+        _playerAnimator.SetBool(_isRunningHash, mag > 1f);
     }
 
     void FixedUpdate()
@@ -110,6 +136,8 @@ public class HighGroundPlayerController : NetworkBehaviour
         {
             _body.velocity = new Vector3(_body.velocity.x, -MaxFallSpeed, _body.velocity.z);
         }
+
+        _body.angularVelocity = Vector3.zero;
     }
 
     [Command]
@@ -147,7 +175,7 @@ public class HighGroundPlayerController : NetworkBehaviour
 
     private bool Grounded()
     {
-        var center = transform.TransformPoint(new Vector3(0, -1f, 0));
+        var center = transform.TransformPoint(new Vector3(0, -0.8f, 0));
         var halfExtends = new Vector3(0.25f, 0.05f, 0.25f);
         return Physics.CheckBox(center, halfExtends, Quaternion.identity, _allButPlayerMask,
             QueryTriggerInteraction.Ignore);
