@@ -527,9 +527,9 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1645011444}
-  networkAddress: localhost
-  maxConnections: 4
-  disconnectInactiveConnections: 0
+  networkAddress: 18.220.47.159
+  maxConnections: 50
+  disconnectInactiveConnections: 1
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 2907482006304205247, guid: 2829c685b0329de48a909b0fc045f0d7,

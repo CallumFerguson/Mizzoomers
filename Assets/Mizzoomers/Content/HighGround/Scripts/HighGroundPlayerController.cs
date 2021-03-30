@@ -31,7 +31,8 @@ public class HighGroundPlayerController : NetworkBehaviour
     private Animator _playerAnimator;
     private int _isRunningHash;
     private int _inAirHash;
-    private int _jumpHash;
+    private int _isJumpingHash;
+    private float _inAirTimer;
 
     void Start()
     {
@@ -41,7 +42,7 @@ public class HighGroundPlayerController : NetworkBehaviour
         _playerAnimator = GetComponentInChildren<Animator>();
         _isRunningHash = Animator.StringToHash("isRunning");
         _inAirHash = Animator.StringToHash("inAir");
-        _jumpHash = Animator.StringToHash("jump");
+        _isJumpingHash = Animator.StringToHash("isJumping");
     }
 
     public override void OnStartClient()
@@ -70,6 +71,11 @@ public class HighGroundPlayerController : NetworkBehaviour
 
         var grounded = Grounded();
         _playerAnimator.SetBool(_inAirHash, !grounded);
+        _inAirTimer += Time.deltaTime;
+        if (grounded)
+        {
+            _inAirTimer = 0;
+        }
 
         //jump
         if (Input.GetKey(KeyCode.Space) && Time.time - _lastJumpTime >= JumpCooldown && grounded)
@@ -78,9 +84,9 @@ public class HighGroundPlayerController : NetworkBehaviour
             var velocity = _body.velocity;
             velocity.y = JumpVelocity;
             _body.velocity = velocity;
-            
-            _playerAnimator.SetTrigger(_jumpHash);
         }
+
+        _playerAnimator.SetBool(_isJumpingHash, Time.time - _lastJumpTime < 0.85f && !grounded);
 
         //push
         if (Input.GetKeyDown(KeyCode.J) && Time.time - _lastPushTime >= PushCooldown)
@@ -107,6 +113,8 @@ public class HighGroundPlayerController : NetworkBehaviour
         }
 
         _playerAnimator.SetBool(_isRunningHash, mag > 1f);
+        
+        print(_playerAnimator.GetBool(_isRunningHash) + " " + _playerAnimator.GetBool(_inAirHash) + " " + _playerAnimator.GetBool(_isJumpingHash));
     }
 
     void FixedUpdate()
