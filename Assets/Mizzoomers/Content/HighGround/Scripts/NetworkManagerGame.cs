@@ -11,7 +11,7 @@ public class NetworkManagerGame : NetworkManager
     {
         base.Start();
 
-        StartHost();
+        // StartHost();
     }
 
     public override void OnServerConnect(NetworkConnection conn)
