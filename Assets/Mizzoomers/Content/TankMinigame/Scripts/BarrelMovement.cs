@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BarrelMovement : MonoBehaviour {
+using Mirror;
+//
+public class BarrelMovement : NetworkBehaviour {
 	public float turnSpeed;
 	private float Temp;
 	// Use this for initialization
@@ -14,7 +16,7 @@ public class BarrelMovement : MonoBehaviour {
 	void Update () {
 		// between 16 and  340
 
-		if (Input.GetKey (KeyCode.UpArrow)) {
+		if (Input.GetKey (KeyCode.UpArrow) && isLocalPlayer) {
 			//print (transform.localEulerAngles.x);
 			if (transform.localEulerAngles.x <= 18 || transform.localEulerAngles.x > 340) {
 				transform.Rotate (-turnSpeed * Time.deltaTime,0.0f,0.0f);
@@ -22,7 +24,7 @@ public class BarrelMovement : MonoBehaviour {
 		}
 
 				
-		if (Input.GetKey (KeyCode.DownArrow)) {
+		if (Input.GetKey (KeyCode.DownArrow) && isLocalPlayer) {
 			//print (transform.localEulerAngles.x);
 			if (transform.localEulerAngles.x < 16 || transform.localEulerAngles.x >= 330) {
 				transform.Rotate (turnSpeed * Time.deltaTime, 0.0f, 0.0f);

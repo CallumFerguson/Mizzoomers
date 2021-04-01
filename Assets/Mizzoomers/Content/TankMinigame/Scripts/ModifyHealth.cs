@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using Mirror;
 
-public class ModifyHealth : MonoBehaviour
+public class ModifyHealth : NetworkBehaviour
 {
 	public Text HealthText;
 	public float health;
@@ -70,11 +71,11 @@ public class ModifyHealth : MonoBehaviour
 	}
 	void OnCollisionEnter(Collision collision){
 		
-		if (collision.gameObject.tag == "ArmorPowerup")
+		if (collision.gameObject.tag == "ArmorPowerup" && isLocalPlayer)
 		{
 			PowerupTimer = 30;
 			armor = .5f;
-		} else if(collision.gameObject.tag == "HealthPowerup" && healthTimer <= 0){
+		} else if(collision.gameObject.tag == "HealthPowerup" && healthTimer <= 0 && isLocalPlayer){
 			healthTimer = 1;
 			ChangeHealth(10);
 			

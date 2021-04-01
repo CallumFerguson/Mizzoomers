@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class FireScript : MonoBehaviour
+public class FireScript : NetworkBehaviour
 {
     // Start is called before the first frame update
     public GameObject FiringTank;
@@ -35,7 +36,7 @@ public class FireScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("space") && canFire == true)
+        if (Input.GetKey("space") && canFire == true && isLocalPlayer)
         {
             GameObject clone;
             GameObject flash;
@@ -73,7 +74,7 @@ public class FireScript : MonoBehaviour
     }
 	void OnCollisionEnter(Collision collision){
 		
-		if (collision.gameObject.tag == "CannonPowerup")
+		if (collision.gameObject.tag == "CannonPowerup" && isLocalPlayer)
 		{
 			Damage = PowerupDamage;
 			PowerupTimer = 30;
