@@ -42,9 +42,12 @@ public class PowerupSpawner : MonoBehaviour
 		if(choice <= 1 && choice >= 0){
 			clone = Instantiate(Armor, transform.position + new Vector3(0,0,0),Quaternion.identity);
 		} else if(choice <= 2 && choice >1 ){
-			clone = Instantiate(Speed, transform.position + new Vector3(0,0,0),Quaternion.identity);
+			Quaternion rotation = Quaternion.Euler(90,0,0);
+			
+			clone = Instantiate(Speed, transform.position + new Vector3(0,0,0),rotation);
 		} else if(choice <= 3 && choice > 2){
-			clone = Instantiate(Cannon, transform.position + new Vector3(0,0,0),Quaternion.identity);
+			Quaternion rotation = Quaternion.Euler(-80,0,0);
+			clone = Instantiate(Cannon, transform.position + new Vector3(0,0,0),rotation);
 		} else {
 			clone = Instantiate(Health, transform.position + new Vector3(0,0,0),Quaternion.identity);
 		}

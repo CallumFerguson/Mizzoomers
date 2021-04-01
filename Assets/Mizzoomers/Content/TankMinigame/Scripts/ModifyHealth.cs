@@ -17,7 +17,7 @@ public class ModifyHealth : MonoBehaviour
 	public GameObject Player;
 	public bool dead;
 	public float deathTimer;
-	
+	public float healthTimer;
 	
     // Start is called before the first frame update
     void Start()
@@ -26,6 +26,7 @@ public class ModifyHealth : MonoBehaviour
 		armor = 1;
 		PowerupTimer = 0;
 		dead = false;
+		healthTimer = 0;
     }
 
     // Update is called once per frame
@@ -39,6 +40,9 @@ public class ModifyHealth : MonoBehaviour
         } else if(PowerupTimer > 0){
 			PowerupTimer -= Time.deltaTime;
 			Debug.Log("PowerupTimer: " + PowerupTimer.ToString());
+		}
+		if(healthTimer > 0){
+			healthTimer -= Time.deltaTime;
 		}
 		if(health <= 0 && dead == false){
 			DIE();
@@ -55,7 +59,7 @@ public class ModifyHealth : MonoBehaviour
     }
 	public void ChangeHealth(float change)
 	{
-		if(change > 0){
+		if(change < 0){
 			change = change * armor;
 		}
 		health = health + change;
@@ -70,9 +74,9 @@ public class ModifyHealth : MonoBehaviour
 		{
 			PowerupTimer = 30;
 			armor = .5f;
-		} else if(collision.gameObject.tag == "HealthPowerup"){
-			
-			ChangeHealth(20);
+		} else if(collision.gameObject.tag == "HealthPowerup" && healthTimer <= 0){
+			healthTimer = 1;
+			ChangeHealth(10);
 			
 		}
 		
