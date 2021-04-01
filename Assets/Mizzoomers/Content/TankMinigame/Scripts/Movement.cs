@@ -14,11 +14,19 @@ public class Movement : MonoBehaviour {
 	private bool MoveEnabled;
 	public float disableTime;
 	private float disableTimer;
+	public float ArmorPowerupTime;
+	public bool ArmorPowerup;
+	public float NormalMoveSpeed;
+	public float NormalTurnSpeed;
+	public float PowerupTurnSpeed;
+	public float PowerupMoveSpeed;
+	public float PowerupTimer;
 	
 	void Start () {
 		startTime = 0f;
 		reset = false;
 		enabled = true;
+		PowerupTimer = 0;
 	}
 	
 	// Update is called once per frame
@@ -63,5 +71,26 @@ public class Movement : MonoBehaviour {
 				MoveEnabled = true;
 			}
 		}
+		if (PowerupTimer <= 0)
+        {
+            moveSpeed = NormalMoveSpeed;
+			turnSpeed = NormalTurnSpeed;
+        } else if(PowerupTimer > 0){
+			PowerupTimer -= Time.deltaTime;
+			
+		}
+		
+	}
+	
+	void OnCollisionEnter(Collision collision){
+		
+		if (collision.gameObject.tag == "SpeedPowerup")
+		{
+			moveSpeed = PowerupMoveSpeed;
+			turnSpeed = PowerupTurnSpeed;
+			PowerupTimer = 30;
+		}
+		
+		
 	}
 }

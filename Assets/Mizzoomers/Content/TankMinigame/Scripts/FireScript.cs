@@ -16,12 +16,19 @@ public class FireScript : MonoBehaviour
     private bool timerRunning;
     public float fireTime;
     private float timeLeft;
+	public float Damage;
+	public float NormalDamage;
+	public float PowerupDamage;
+	public float PowerupTimer;
+	
     
     void Start()
     {
         canFire = true;
         timerRunning = false;
         timeLeft = 0;
+		PowerupTimer = 0;
+		Damage = NormalDamage;
             
     }
 
@@ -37,6 +44,7 @@ public class FireScript : MonoBehaviour
             ProjectileScript Projectilescript = clone.GetComponent<ProjectileScript>();
             Projectilescript.firingTank = FiringTank;
             Projectilescript.MuzzelFlash = flash;
+			Projectilescript.damage = Damage;
             Rigidbody clonebody = clone.GetComponent<Rigidbody>();
             clonebody.velocity = EndOfBarrel.TransformDirection(Vector3.forward * ProjectileSpeed);
             
@@ -55,6 +63,23 @@ public class FireScript : MonoBehaviour
                 
             }
         }
+		if (PowerupTimer <= 0)
+        {
+            Damage = NormalDamage;
+        } else if(PowerupTimer > 0){
+			PowerupTimer -= Time.deltaTime;
+			
+		}
     }
+	void OnCollisionEnter(Collision collision){
+		
+		if (collision.gameObject.tag == "CannonPowerup")
+		{
+			Damage = PowerupDamage;
+			PowerupTimer = 30;
+		}
+		
+		
+	}
 
 }

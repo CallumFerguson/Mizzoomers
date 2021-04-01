@@ -6,21 +6,93 @@ using UnityEngine;
 public class ModifyHealth : MonoBehaviour
 {
 	public Text HealthText;
-	private int health;
+	public float health;
+	public float PowerupTimer;
+	public float armor;
+	public GameObject Door1;
+	public GameObject Door2;
+	public GameObject DoorTop;
+	public GameObject Explosion;
+	public GameObject Fire;
+	public GameObject Player;
+	public bool dead;
+	public float deathTimer;
+	
+	
     // Start is called before the first frame update
     void Start()
     {
         health = 100;
+		armor = 1;
+		PowerupTimer = 0;
+		dead = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+		
         
+        if (PowerupTimer <= 0)
+        {
+            armor = 1;
+        } else if(PowerupTimer > 0){
+			PowerupTimer -= Time.deltaTime;
+			Debug.Log("PowerupTimer: " + PowerupTimer.ToString());
+		}
+		if(health <= 0 && dead == false){
+			DIE();
+			deathTimer = 20;
+			dead = true;
+		} 
+		if(dead == true)
+		{
+			deathTimer -= Time.deltaTime;
+			if(deathTimer <= 0){
+				Destroy(Player);
+			}
+		}
     }
-	public void ChangeHealth(int change)
+	public void ChangeHealth(float change)
 	{
+		if(change > 0){
+			change = change * armor;
+		}
 		health = health + change;
+		if(health >= 125){
+			health = 125;
+		}
 		HealthText.text = "HP: " + health.ToString();
+	}
+	void OnCollisionEnter(Collision collision){
+		
+		if (collision.gameObject.tag == "ArmorPowerup")
+		{
+			PowerupTimer = 30;
+			armor = .5f;
+		} else if(collision.gameObject.tag == "HealthPowerup"){
+			
+			ChangeHealth(20);
+			
+		}
+		
+		
+	}
+	void DIE(){
+		GameObject explode;
+		GameObject fire;
+		explode = Instantiate(Explosion,transform.position, transform.rotation);
+		fire = Instantiate(Fire,transform.position , transform.rotation);
+		Door1.transform.Rotate(0.0f,0.0f,-90.0f);
+		Door2.transform.Rotate(0.0f,0.0f,90.0f);
+		DoorTop.transform.Rotate(-90.0f,0.0f,0.0f);
+		Player.GetComponent<Movement>().enabled = false;
+		Player.GetComponent<FireScript>().enabled = false;
+		GameObject turret = Player.transform.GetChild(0).gameObject;
+		turret.GetComponent<turretRotation>().enabled = false;
+		GameObject barrelBase = turret.transform.GetChild(2).gameObject;
+		GameObject barrel = barrelBase.transform.GetChild(0).gameObject;
+		barrel.GetComponent<BarrelMovement>().enabled = false;
+		
 	}
 }

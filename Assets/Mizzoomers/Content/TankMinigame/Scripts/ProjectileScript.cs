@@ -8,6 +8,7 @@ public class ProjectileScript : MonoBehaviour
     public GameObject firingTank;
     public GameObject Explosion;
     public GameObject MuzzelFlash;
+	public float damage;
     private float Timeout;
     
     void Start()
