@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Smooth;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -107,6 +108,14 @@ public class HighGroundPlayerController : NetworkBehaviour
         }
 
         _playerAnimator.SetBool(_isRunningHash, mag > 1f);
+
+        if (transform.position.y < -10f)
+        {
+            transform.position = NetworkManagerGame.singleton.GetStartPosition().position;
+            transform.rotation = Quaternion.identity;
+            _body.velocity = Vector3.zero;
+            GetComponent<SmoothSyncMirror>().teleportOwnedObjectFromOwner();
+        }
     }
 
     void FixedUpdate()
@@ -144,6 +153,9 @@ public class HighGroundPlayerController : NetworkBehaviour
     private void CmdPushPlayers()
     {
         var hits = Physics.OverlapSphere(connectionToClient.identity.transform.position, PushRadius, _playerMask);
+        var closestDistance = Mathf.Infinity;
+        HighGroundPlayerController closestHitController = null;
+        NetworkIdentity closestHitIdentity = null;
         for (int i = 0; i < hits.Length; i++)
         {
             var hit = hits[i].attachedRigidbody;
@@ -155,10 +167,21 @@ public class HighGroundPlayerController : NetworkBehaviour
                     var hitController = hit.GetComponent<HighGroundPlayerController>();
                     if (hitController && hitIdentity.connectionToClient != null)
                     {
-                        hitController.RpcGetPushed(hitIdentity.connectionToClient, transform.position);
+                        var distance = Vector3.Distance(hitIdentity.transform.position, transform.position);
+                        if (distance < closestDistance)
+                        {
+                            closestDistance = distance;
+                            closestHitController = hitController;
+                            closestHitIdentity = hitIdentity;
+                        }
                     }
                 }
             }
+        }
+
+        if (closestHitController && closestHitIdentity)
+        {
+            closestHitController.RpcGetPushed(closestHitIdentity.connectionToClient, transform.position);
         }
     }
 

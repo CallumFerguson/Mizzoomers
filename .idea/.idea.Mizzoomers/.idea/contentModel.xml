@@ -400,6 +400,10 @@
                 <e p="HighGroundPlayerController.cs" t="Include" />
                 <e p="NetworkManagerGame.cs" t="Include" />
               </e>
+              <e p="Shaders" t="Include">
+                <e p="SkyFog.shader" t="Include" />
+                <e p="SkyFog2.shader" t="Include" />
+              </e>
             </e>
           </e>
         </e>
