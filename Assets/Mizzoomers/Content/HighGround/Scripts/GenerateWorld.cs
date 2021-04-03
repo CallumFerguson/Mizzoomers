@@ -11,15 +11,16 @@ public class GenerateWorld : NetworkBehaviour
 
     [SyncVar] private int _seed;
 
-    private bool _worldCreated = false;
-
     public override void OnStartServer()
     {
         System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         int cur_time = (int) (System.DateTime.UtcNow - epochStart).TotalSeconds;
         _seed = cur_time;
 
-        CreateWorld();
+        if (isServer && !isClient)
+        {
+            CreateWorld();
+        }
     }
 
     public override void OnStartClient()
@@ -29,12 +30,10 @@ public class GenerateWorld : NetworkBehaviour
 
     private void CreateWorld()
     {
-        if (_worldCreated)
+        for (int i = transform.childCount - 1; i >= 0; i--)
         {
-            return;
+            Destroy(transform.GetChild(i).gameObject);
         }
-
-        _worldCreated = true;
 
         Random.InitState(_seed);
 
