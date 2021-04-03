@@ -397,12 +397,12 @@
             <e p="HighGround" t="Include">
               <e p="Scripts" t="Include">
                 <e p="CameraFollow.cs" t="Include" />
+                <e p="GenerateWorld.cs" t="Include" />
                 <e p="HighGroundPlayerController.cs" t="Include" />
                 <e p="NetworkManagerGame.cs" t="Include" />
               </e>
               <e p="Shaders" t="Include">
                 <e p="SkyFog.shader" t="Include" />
-                <e p="SkyFog2.shader" t="Include" />
               </e>
             </e>
           </e>

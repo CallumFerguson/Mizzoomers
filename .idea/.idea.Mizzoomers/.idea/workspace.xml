@@ -4,8 +4,8 @@
     <list default="true" id="d78ae2ab-4041-416c-9e7c-4c23b23fa941" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Shaders/SkyFog.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Shaders/SkyFog.shader" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/HighGround.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/HighGround.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +17,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -27,6 +28,7 @@
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Shaders/SkyFog.shader" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1nqIzRFVBPMMa26K1BAt52EYfO3" />
@@ -83,7 +85,7 @@
       <workItem from="1613929637840" duration="4066000" />
       <workItem from="1617129893340" duration="3814000" />
       <workItem from="1617135928275" duration="2034000" />
-      <workItem from="1617464290893" duration="6348000" />
+      <workItem from="1617464290893" duration="9375000" />
     </task>
     <servers />
   </component>
