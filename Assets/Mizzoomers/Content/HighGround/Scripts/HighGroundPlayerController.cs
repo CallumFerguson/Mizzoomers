@@ -32,7 +32,6 @@ public class HighGroundPlayerController : NetworkBehaviour
     private int _isRunningHash;
     private int _inAirHash;
     private int _isJumpingHash;
-    private float _inAirTimer;
 
     void Start()
     {
@@ -71,11 +70,6 @@ public class HighGroundPlayerController : NetworkBehaviour
 
         var grounded = Grounded();
         _playerAnimator.SetBool(_inAirHash, !grounded);
-        _inAirTimer += Time.deltaTime;
-        if (grounded)
-        {
-            _inAirTimer = 0;
-        }
 
         //jump
         if (Input.GetKey(KeyCode.Space) && Time.time - _lastJumpTime >= JumpCooldown && grounded)
@@ -89,14 +83,14 @@ public class HighGroundPlayerController : NetworkBehaviour
         _playerAnimator.SetBool(_isJumpingHash, Time.time - _lastJumpTime < 0.85f && !grounded);
 
         //push
-        if (Input.GetKeyDown(KeyCode.J) && Time.time - _lastPushTime >= PushCooldown)
+        if (Input.GetKeyDown(KeyCode.Return) && Time.time - _lastPushTime >= PushCooldown)
         {
             _lastPushTime = Time.time;
             CmdPushPlayers();
         }
 
         //block
-        if (Input.GetKeyDown(KeyCode.K) && Time.time - _lastBlockTime >= BlockCooldown)
+        if (Input.GetKeyDown(KeyCode.RightShift) && Time.time - _lastBlockTime >= BlockCooldown)
         {
             _lastBlockTime = Time.time;
             CmdBlock();
@@ -113,8 +107,6 @@ public class HighGroundPlayerController : NetworkBehaviour
         }
 
         _playerAnimator.SetBool(_isRunningHash, mag > 1f);
-        
-        print(_playerAnimator.GetBool(_isRunningHash) + " " + _playerAnimator.GetBool(_inAirHash) + " " + _playerAnimator.GetBool(_isJumpingHash));
     }
 
     void FixedUpdate()
@@ -163,7 +155,7 @@ public class HighGroundPlayerController : NetworkBehaviour
                     var hitController = hit.GetComponent<HighGroundPlayerController>();
                     if (hitController && hitIdentity.connectionToClient != null)
                     {
-                        hitController.RpcGetPushed(hitIdentity.connectionToClient);
+                        hitController.RpcGetPushed(hitIdentity.connectionToClient, transform.position);
                     }
                 }
             }
@@ -171,9 +163,14 @@ public class HighGroundPlayerController : NetworkBehaviour
     }
 
     [TargetRpc]
-    private void RpcGetPushed(NetworkConnection target)
+    private void RpcGetPushed(NetworkConnection target, Vector3 position)
     {
-        print("I got pushed");
+        var distance = Vector3.Distance(position, transform.position);
+        var forceLerp = 1 - (distance / PushRadius);
+        forceLerp = Mathf.Max(forceLerp, 0.15f);
+        var forceDirection = (transform.position - position).normalized;
+        forceDirection.y += 0.5f;
+        _body.AddForce(forceLerp * 1750f * forceDirection.normalized, ForceMode.Impulse);
     }
 
     [Command]
