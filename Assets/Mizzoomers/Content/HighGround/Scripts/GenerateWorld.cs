@@ -78,6 +78,11 @@ public class GenerateWorld : NetworkBehaviour
             for (int n = i + 1; n < nodes.Count; n++)
             {
                 var distance = Vector3.Distance(nodes[i].pos, nodes[n].pos);
+                while (everyEdgeSorted.ContainsKey(distance))
+                {
+                    distance += 0.001f;
+
+                }
                 everyEdgeSorted.Add(distance, (i, n));
             }
         }
@@ -85,15 +90,47 @@ public class GenerateWorld : NetworkBehaviour
         print($"Every edge lengh: {everyEdgeSorted.Count}");
 
         var edges = new HashSet<(int, int)>();
-        
+
         foreach (var pair in everyEdgeSorted)
         {
-            edges.Add(pair.Value);
-            if (FloodFillGraph(0, edges).Count == nodes.Count)
+            var edge = pair.Value;
+            var fill = FloodFillGraph(edge.Item1, edges);
+            if (fill.Count == nodes.Count)
             {
                 break;
             }
+
+            if (!fill.Contains(edge.Item2))
+            {
+                edges.Add(pair.Value);
+            }
         }
+
+        int edgesToAdd = Mathf.FloorToInt(nodes.Count / 2.5f);
+        int maxEdgeToTry = nodes.Count * 3;
+        int a = 0;
+        foreach (var edge in everyEdgeSorted)
+        {
+            maxEdgeToTry--;
+            if (maxEdgeToTry == -1)
+            {
+                break;
+            }
+            if (Random.value < 0.25f)
+            {
+                if (!IntersectAny(edge.Value, edges, nodes))
+                {
+                    edges.Add(edge.Value);
+                    edgesToAdd--;
+                    if (edgesToAdd == 0)
+                    {
+                        break;
+                    }
+                    a++;
+                }
+            }
+        }
+        print(a);
 
         print($"Created {edges.Count} edges.");
 
