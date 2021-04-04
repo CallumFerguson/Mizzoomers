@@ -15,7 +15,8 @@ public class GenerateWorld : NetworkBehaviour
     {
         System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         int cur_time = (int) (System.DateTime.UtcNow - epochStart).TotalSeconds;
-        _seed = cur_time;
+        // _seed = cur_time;
+        _seed = 0;
 
         if (isServer && !isClient)
         {
@@ -43,7 +44,7 @@ public class GenerateWorld : NetworkBehaviour
         {
             const float size = 35f;
             const float space = 6.5f;
-            
+
             Vector2 pos = Vector2.zero;
             int attempts = 10;
             do
@@ -80,21 +81,18 @@ public class GenerateWorld : NetworkBehaviour
                 everyEdgeSorted.Add(distance, (i, n));
             }
         }
-        
-        print($"Every edge lengh: {everyEdgeSorted.Count}");
-        
-        var edges = new HashSet<(int, int)>();
 
-        int added = 25;
+        print($"Every edge lengh: {everyEdgeSorted.Count}");
+
+        var edges = new HashSet<(int, int)>();
+        
         foreach (var pair in everyEdgeSorted)
         {
-            added--;
-            if (added == -1)
+            edges.Add(pair.Value);
+            if (FloodFillGraph(0, edges).Count == nodes.Count)
             {
                 break;
             }
-
-            edges.Add(pair.Value);
         }
 
         print($"Created {edges.Count} edges.");
@@ -111,6 +109,7 @@ public class GenerateWorld : NetworkBehaviour
                 closestIndex = i;
             }
         }
+
         CreateBridge(new Vector3(-2, 5, -2), nodes[closestIndex].pos + new Vector3(0, 5, 0));
 
         foreach (var edge in edges)
@@ -135,6 +134,39 @@ public class GenerateWorld : NetworkBehaviour
         }
 
         return false;
+    }
+
+    private HashSet<int> FloodFillGraph(int from, HashSet<(int, int)> edges)
+    {
+        var found = new HashSet<int>();
+        var queued = new HashSet<int>();
+        var queue = new Queue<int>();
+        queue.Enqueue(from);
+        queued.Add(from);
+        while (queue.Count > 0)
+        {
+            int next = queue.Dequeue();
+            found.Add(next);
+            foreach (var edge in edges)
+            {
+                if (edge.Item1 == next || edge.Item2 == next)
+                {
+                    if (edge.Item1 != next && !found.Contains(edge.Item1) && !queued.Contains(edge.Item1))
+                    {
+                        queue.Enqueue(edge.Item1);
+                        queued.Add(edge.Item1);
+                    }
+
+                    if (edge.Item2 != next && !found.Contains(edge.Item2) && !queued.Contains(edge.Item2))
+                    {
+                        queue.Enqueue(edge.Item2);
+                        queued.Add(edge.Item2);
+                    }
+                }
+            }
+        }
+
+        return found;
     }
 
     //from: https://stackoverflow.com/questions/3838329/how-can-i-check-if-two-segments-intersect
