@@ -45,10 +45,10 @@ public class GenerateWorld : NetworkBehaviour
         var nodes = new List<Node>();
         var height = new Vector2(size, size).magnitude * distanceSlopeRatio + 1.75f;
         // var height = 0;
-        
+
         //start platform
         nodes.Add(new Node() {pos = new Vector3(-6, 0, -6), rotation = Quaternion.identity, scale = new Vector2(8, 8)});
-        
+
         //end platform
         nodes.Add(new Node() {pos = new Vector3(size, height, size), rotation = Quaternion.identity, scale = new Vector2(2, 2)});
 
@@ -124,7 +124,7 @@ public class GenerateWorld : NetworkBehaviour
         }
 
         var lowPriorityEdges = new HashSet<(int, int)>();
-        int edgesToAdd = Mathf.FloorToInt(nodes.Count / 2.5f);
+        int edgesToAdd = Mathf.FloorToInt(nodes.Count / 1.0f);
         int maxEdgeToTry = nodes.Count * 4;
         foreach (var edge in everyEdgeSorted)
         {
@@ -133,8 +133,8 @@ public class GenerateWorld : NetworkBehaviour
             {
                 break;
             }
-        
-            if (Random.value < 0.2f)
+
+            if (Random.value < 0.5f)
             {
                 if (!IntersectAny(edge.Value, edges, nodes))
                 {
@@ -151,17 +151,36 @@ public class GenerateWorld : NetworkBehaviour
 
         // print($"Created {edges.Count} edges.");
 
-        // var closestDistance = Mathf.Infinity;
-        // var closestIndex = 0;
+        var closestNodes = new SortedDictionary<float, int>();
+        
         for (int i = 1; i < nodes.Count; i++)
         {
-            CreatePlatform(nodes[i], i.ToString());
-            // var distance = nodes[i].pos.magnitude;
-            // if (distance < closestDistance)
-            // {
-            //     closestDistance = distance;
-            //     closestIndex = i;
-            // }
+            CreatePlatform(nodes[i], i.ToString(), i > 1);
+            if (i > 1)
+            {
+                var distance = Vector3.Distance(nodes[i].pos, nodes[0].pos);
+                while (closestNodes.ContainsKey(distance))
+                {
+                    distance += 0.001f;
+                }
+
+                closestNodes.Add(distance, i);
+            }
+        }
+
+        var numToAdd = 5;
+        foreach (var pair in closestNodes)
+        {
+            numToAdd--;
+            if (numToAdd == -1)
+            {
+                break;
+            }
+
+            if (!lowPriorityEdges.Contains((0, pair.Value)))
+            {
+                lowPriorityEdges.Add((0, pair.Value));
+            }
         }
 
         // CreateBridge(new Vector3(-2, 5 - 0.25f, -2), nodes[closestIndex].pos + new Vector3(0, 5, 0));
@@ -170,13 +189,13 @@ public class GenerateWorld : NetworkBehaviour
         {
             CreateEdge(edge, nodes, false);
         }
-        
+
         foreach (var edge in lowPriorityEdges)
         {
             CreateEdge(edge, nodes, true);
         }
     }
-    
+
     private void CreateEdge((int, int) edge, List<Node> nodes, bool checkHitBox)
     {
         var n1 = nodes[edge.Item1];
@@ -197,7 +216,7 @@ public class GenerateWorld : NetworkBehaviour
                 }
             }
         }
-        
+
         CreateBridge(n1Sides[closestPair.Item1], n2Sides[closestPair.Item2], $"{edge.Item1} to {edge.Item2}", checkHitBox);
     }
 
@@ -208,11 +227,6 @@ public class GenerateWorld : NetworkBehaviour
         points[1] = node.pos + new Vector3(0, 5, 0) + node.rotation * Vector3.back * node.scale.y / 2f;
         points[2] = node.pos + new Vector3(0, 5, 0) + node.rotation * Vector3.right * node.scale.x / 2f;
         points[3] = node.pos + new Vector3(0, 5, 0) + node.rotation * Vector3.left * node.scale.x / 2f;
-        // for (int i = 0; i < points.Length; i++)
-        // {
-        //     var t = Instantiate(blockPrefab, points[i], Quaternion.identity, transform);
-        //     t.transform.localScale = new Vector3(0.1f, 1, 0.1f);
-        // }
         return points;
     }
 
@@ -301,7 +315,7 @@ public class GenerateWorld : NetworkBehaviour
         return false;
     }
 
-    private void CreatePlatform(Node node, string nodeName)
+    private void CreatePlatform(Node node, string nodeName, bool canHover)
     {
         float height = node.pos.y + 10 + 5;
 
@@ -313,24 +327,28 @@ public class GenerateWorld : NetworkBehaviour
         block.transform.localScale = new Vector3(node.scale.x, height, node.scale.y);
 
         block.AddComponent<BoxCollider>();
+        if (Random.value < 0.15f && canHover)
+        {
+            block.AddComponent<Hover>();
+        }
     }
 
     private void CreateBridge(Vector3 p1, Vector3 p2, string bridgeName, bool checkHitBox)
     {
         var flatDistance = Vector2.Distance(new Vector2(p1.x, p1.z), new Vector2(p2.x, p2.z));
         var heightDistance = Mathf.Abs(p1.y - p2.y);
-        
+
         const float maxPlatformSpacingFlat = 3f;
         const float maxPlatformSpacingHeight = 0.8f;
-        
+
         if (flatDistance < maxPlatformSpacingFlat && heightDistance < maxPlatformSpacingHeight)
         {
             return;
         }
-        
+
         int numPlatformsFlat = Mathf.FloorToInt(flatDistance / maxPlatformSpacingFlat);
         int numPlatformsHeight = Mathf.FloorToInt(heightDistance / maxPlatformSpacingHeight);
-        
+
         int numPlatforms = Mathf.Max(numPlatformsFlat, numPlatformsHeight);
         numPlatforms = Mathf.Max(1, numPlatforms);
 
@@ -352,15 +370,12 @@ public class GenerateWorld : NetworkBehaviour
                 block.name = bridgeName;
                 block.transform.localScale = scale;
                 block.AddComponent<BoxCollider>();
+                if (Random.value < 0.15f)
+                {
+                    block.AddComponent<Hover>();
+                }
             }
         }
-
-        // var block = Instantiate(blockPrefab, transform);
-        // block.name = bridgeName;
-        // block.transform.position = (p1 + p2) / 2f;
-        // block.transform.LookAt(p2);
-        // block.transform.localScale = new Vector3(1.5f, 0.5f, distance);
-        // block.transform.position -= new Vector3(0, 0.25f, 0);
     }
 
     private struct Node
