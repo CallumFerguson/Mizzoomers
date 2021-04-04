@@ -15,8 +15,7 @@ public class GenerateWorld : NetworkBehaviour
     {
         System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         int cur_time = (int) (System.DateTime.UtcNow - epochStart).TotalSeconds;
-        // _seed = cur_time;
-        _seed = 1617555528;
+        _seed = cur_time;
 
         if (isServer && !isClient)
         {
@@ -40,12 +39,12 @@ public class GenerateWorld : NetworkBehaviour
         print("Generating world with seed: " + _seed);
 
         const float size = 35f;
-        const float space = 10.5f;
-        const float distanceSlopeRatio = 0.3f;
+        const float space = 7f;
+        const float distanceSlopeRatio = 0.15f;
 
         var nodes = new List<Node>();
-        // var height = new Vector2(size, size).magnitude * distanceSlopeRatio + 3;
-        var height = 0;
+        var height = new Vector2(size, size).magnitude * distanceSlopeRatio + 3;
+        // var height = 0;
         
         //start platform
         nodes.Add(new Node() {pos = new Vector3(-6, 0, -6), rotation = Quaternion.identity, scale = new Vector2(8, 8)});
@@ -73,8 +72,8 @@ public class GenerateWorld : NetworkBehaviour
             if (attempts >= 0)
             {
                 Node node;
-                // var nodeHeight = pos.magnitude * distanceSlopeRatio + (Random.value * 3);
-                var nodeHeight = 0f;
+                var nodeHeight = pos.magnitude * distanceSlopeRatio + (Random.value * 3);
+                // var nodeHeight = 0f;
                 node.pos = new Vector3(pos.x, nodeHeight, pos.y);
                 node.rotation = Quaternion.AngleAxis(Random.value * 360f, Vector3.up);
                 node.scale = new Vector2(Random.value * 5 + 1, Random.value * 5 + 1);
@@ -319,22 +318,24 @@ public class GenerateWorld : NetworkBehaviour
     private void CreateBridge(Vector3 p1, Vector3 p2, string bridgeName, bool checkHitBox)
     {
         var distance = Vector3.Distance(p1, p2);
-        if (distance < 4)
+        var heightDistance = Mathf.Abs(p1.y - p2.y);
+        if (distance < 3 && heightDistance < 1.5f)
         {
             return;
         }
 
         float maxPlatformSpacing = 2.5f + Random.value * 1.25f;
         int numPlatforms = Mathf.FloorToInt(distance / maxPlatformSpacing);
+        numPlatforms = Mathf.Min(1, numPlatforms);
 
         for (int i = 0; i < numPlatforms; i++)
         {
             var size = Random.value + 1f;
-            var scale = new Vector3(size, 15f, size);
             var rotation = Quaternion.AngleAxis(Random.value * 360f, Vector3.up);
             var t = (i + 1f) / (numPlatforms + 1f);
             var pos = Vector3.Lerp(p1, p2, t);
-            var position = new Vector3(pos.x, -2.5f, pos.z);
+            var scale = new Vector3(size, 10f + pos.y, size);
+            var position = new Vector3(pos.x, -scale.y / 2f + pos.y, pos.z);
             position += new Vector3(0, Random.value * 0.01f, 0);
 
             var hit = checkHitBox && Physics.CheckBox(position, scale / 2f, rotation);
