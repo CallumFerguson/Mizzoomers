@@ -400,6 +400,7 @@
                 <e p="GenerateWorld.cs" t="Include" />
                 <e p="HighGroundPlayerController.cs" t="Include" />
                 <e p="NetworkManagerGame.cs" t="Include" />
+                <e p="TestBox.cs" t="Include" />
               </e>
               <e p="Shaders" t="Include">
                 <e p="SkyFog.shader" t="Include" />

@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d78ae2ab-4041-416c-9e7c-4c23b23fa941" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Prefabs/Block(Clone).prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Prefabs/Block(Clone).prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Prefabs/Block.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Prefabs/Block.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Textures.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/HighGround.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/HighGround.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +23,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/TestBox.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -26,6 +32,7 @@
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Shaders/SkyFog.shader" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/TestBox.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" />
     </changedPaths>
   </component>
@@ -83,7 +90,8 @@
       <workItem from="1613929637840" duration="4066000" />
       <workItem from="1617129893340" duration="3814000" />
       <workItem from="1617135928275" duration="2034000" />
-      <workItem from="1617464290893" duration="25951000" />
+      <workItem from="1617464290893" duration="26129000" />
+      <workItem from="1617549934110" duration="7179000" />
     </task>
     <servers />
   </component>

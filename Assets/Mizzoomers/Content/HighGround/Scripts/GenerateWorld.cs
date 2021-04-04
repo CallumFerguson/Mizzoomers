@@ -15,7 +15,8 @@ public class GenerateWorld : NetworkBehaviour
     {
         System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         int cur_time = (int) (System.DateTime.UtcNow - epochStart).TotalSeconds;
-        _seed = cur_time;
+        // _seed = cur_time;
+        _seed = 1617555528;
 
         if (isServer && !isClient)
         {
@@ -39,12 +40,18 @@ public class GenerateWorld : NetworkBehaviour
         print("Generating world with seed: " + _seed);
 
         const float size = 35f;
-        const float space = 5f;
+        const float space = 10.5f;
         const float distanceSlopeRatio = 0.3f;
 
         var nodes = new List<Node>();
-        var height = new Vector2(size, size).magnitude;
-        nodes.Add(new Node() {pos = new Vector3(size, height * distanceSlopeRatio + 3, size), rotation = Quaternion.identity, scale = new Vector2(2, 2)});
+        // var height = new Vector2(size, size).magnitude * distanceSlopeRatio + 3;
+        var height = 0;
+        
+        //start platform
+        nodes.Add(new Node() {pos = new Vector3(-6, 0, -6), rotation = Quaternion.identity, scale = new Vector2(8, 8)});
+        
+        //end platform
+        nodes.Add(new Node() {pos = new Vector3(size, height, size), rotation = Quaternion.identity, scale = new Vector2(2, 2)});
 
         for (int i = 0; i < 100; i++)
         {
@@ -66,8 +73,10 @@ public class GenerateWorld : NetworkBehaviour
             if (attempts >= 0)
             {
                 Node node;
-                node.pos = new Vector3(pos.x, pos.magnitude * distanceSlopeRatio + (Random.value * 3), pos.y);
-                node.rotation = Quaternion.identity;
+                // var nodeHeight = pos.magnitude * distanceSlopeRatio + (Random.value * 3);
+                var nodeHeight = 0f;
+                node.pos = new Vector3(pos.x, nodeHeight, pos.y);
+                node.rotation = Quaternion.AngleAxis(Random.value * 360f, Vector3.up);
                 node.scale = new Vector2(Random.value * 5 + 1, Random.value * 5 + 1);
 
                 var rotatedPos = node.pos - new Vector3(size / 2f, 0, size / 2f);
@@ -79,7 +88,7 @@ public class GenerateWorld : NetworkBehaviour
             }
         }
 
-        print($"Created {nodes.Count} nodes.");
+        // print($"Created {nodes.Count} nodes.");
 
         var everyEdgeSorted = new SortedDictionary<float, (int, int)>();
         for (int i = 0; i < nodes.Count; i++)
@@ -96,7 +105,7 @@ public class GenerateWorld : NetworkBehaviour
             }
         }
 
-        print($"Every edge lengh: {everyEdgeSorted.Count}");
+        // print($"Every edge lengh: {everyEdgeSorted.Count}");
 
         var edges = new HashSet<(int, int)>();
 
@@ -115,6 +124,7 @@ public class GenerateWorld : NetworkBehaviour
             }
         }
 
+        var lowPriorityEdges = new HashSet<(int, int)>();
         int edgesToAdd = Mathf.FloorToInt(nodes.Count / 2.5f);
         int maxEdgeToTry = nodes.Count * 4;
         foreach (var edge in everyEdgeSorted)
@@ -124,12 +134,13 @@ public class GenerateWorld : NetworkBehaviour
             {
                 break;
             }
-
+        
             if (Random.value < 0.2f)
             {
                 if (!IntersectAny(edge.Value, edges, nodes))
                 {
-                    edges.Add(edge.Value);
+                    // edges.Add(edge.Value);
+                    lowPriorityEdges.Add(edge.Value);
                     edgesToAdd--;
                     if (edgesToAdd == 0)
                     {
@@ -139,31 +150,71 @@ public class GenerateWorld : NetworkBehaviour
             }
         }
 
-        print($"Created {edges.Count} edges.");
+        // print($"Created {edges.Count} edges.");
 
-        var closestDistance = Mathf.Infinity;
-        var closestIndex = 0;
-        for (int i = 0; i < nodes.Count; i++)
+        // var closestDistance = Mathf.Infinity;
+        // var closestIndex = 0;
+        for (int i = 1; i < nodes.Count; i++)
         {
-            CreatePlatform(nodes[i]);
-            var distance = nodes[i].pos.magnitude;
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestIndex = i;
-            }
+            CreatePlatform(nodes[i], i.ToString());
+            // var distance = nodes[i].pos.magnitude;
+            // if (distance < closestDistance)
+            // {
+            //     closestDistance = distance;
+            //     closestIndex = i;
+            // }
         }
 
-        CreateBridge(new Vector3(-2, 5, -2), nodes[closestIndex].pos + new Vector3(0, 5, 0));
+        // CreateBridge(new Vector3(-2, 5 - 0.25f, -2), nodes[closestIndex].pos + new Vector3(0, 5, 0));
 
         foreach (var edge in edges)
         {
-            var n1 = nodes[edge.Item1];
-            var n2 = nodes[edge.Item2];
-            var p1 = n1.pos + new Vector3(0, 5 - 0.251f, 0);
-            var p2 = n2.pos + new Vector3(0, 5 - 0.251f, 0);
-            CreateBridge(p1, p2);
+            CreateEdge(edge, nodes, false);
         }
+        
+        foreach (var edge in lowPriorityEdges)
+        {
+            CreateEdge(edge, nodes, true);
+        }
+    }
+    
+    private void CreateEdge((int, int) edge, List<Node> nodes, bool checkHitBox)
+    {
+        var n1 = nodes[edge.Item1];
+        var n2 = nodes[edge.Item2];
+        var n1Sides = NodeSides(n1);
+        var n2Sides = NodeSides(n2);
+        var closestDistance = float.PositiveInfinity;
+        var closestPair = (-1, -1);
+        for (int i = 0; i < n1Sides.Length; i++)
+        {
+            for (int n = 0; n < n2Sides.Length; n++)
+            {
+                var distance = Vector3.Distance(n1Sides[i], n2Sides[n]);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestPair = (i, n);
+                }
+            }
+        }
+        
+        CreateBridge(n1Sides[closestPair.Item1], n2Sides[closestPair.Item2], $"{edge.Item1} to {edge.Item2}", checkHitBox);
+    }
+
+    private Vector3[] NodeSides(Node node)
+    {
+        var points = new Vector3[4];
+        points[0] = node.pos + new Vector3(0, 5, 0) + node.rotation * Vector3.forward * node.scale.y / 2f;
+        points[1] = node.pos + new Vector3(0, 5, 0) + node.rotation * Vector3.back * node.scale.y / 2f;
+        points[2] = node.pos + new Vector3(0, 5, 0) + node.rotation * Vector3.right * node.scale.x / 2f;
+        points[3] = node.pos + new Vector3(0, 5, 0) + node.rotation * Vector3.left * node.scale.x / 2f;
+        // for (int i = 0; i < points.Length; i++)
+        // {
+        //     var t = Instantiate(blockPrefab, points[i], Quaternion.identity, transform);
+        //     t.transform.localScale = new Vector3(0.1f, 1, 0.1f);
+        // }
+        return points;
     }
 
     private bool PosNearAnother(Vector2 pos, List<Node> nodes, float space)
@@ -222,6 +273,10 @@ public class GenerateWorld : NetworkBehaviour
     //Return true if line segments AB and CD intersect
     private bool Intersect(Vector2 A, Vector2 B, Vector2 C, Vector2 D)
     {
+        A = Vector2.MoveTowards(A, B, 0.1f);
+        B = Vector2.MoveTowards(B, A, 0.1f);
+        C = Vector2.MoveTowards(C, D, 0.1f);
+        D = Vector2.MoveTowards(D, C, 0.1f);
         return ccw(A, C, D) != ccw(B, C, D) && ccw(A, B, C) != ccw(A, B, D);
     }
 
@@ -247,23 +302,58 @@ public class GenerateWorld : NetworkBehaviour
         return false;
     }
 
-    private void CreatePlatform(Node node)
+    private void CreatePlatform(Node node, string nodeName)
     {
         float height = node.pos.y + 10 + 5;
 
         var block = Instantiate(blockPrefab, transform);
+        block.name = nodeName;
 
         block.transform.position = new Vector3(node.pos.x, height / 2f - 10, node.pos.z);
-        block.transform.rotation = Quaternion.AngleAxis(Random.value * 360f, Vector3.up);
+        block.transform.rotation = node.rotation;
         block.transform.localScale = new Vector3(node.scale.x, height, node.scale.y);
+
+        block.AddComponent<BoxCollider>();
     }
 
-    private void CreateBridge(Vector3 p1, Vector3 p2)
+    private void CreateBridge(Vector3 p1, Vector3 p2, string bridgeName, bool checkHitBox)
     {
-        var block = Instantiate(blockPrefab, transform);
-        block.transform.position = (p1 + p2) / 2f;
-        block.transform.LookAt(p2);
-        block.transform.localScale = new Vector3(1.5f, 0.5f, Vector3.Distance(p1, p2));
+        var distance = Vector3.Distance(p1, p2);
+        if (distance < 4)
+        {
+            return;
+        }
+
+        float maxPlatformSpacing = 2.5f + Random.value * 1.25f;
+        int numPlatforms = Mathf.FloorToInt(distance / maxPlatformSpacing);
+
+        for (int i = 0; i < numPlatforms; i++)
+        {
+            var size = Random.value + 1f;
+            var scale = new Vector3(size, 15f, size);
+            var rotation = Quaternion.AngleAxis(Random.value * 360f, Vector3.up);
+            var t = (i + 1f) / (numPlatforms + 1f);
+            var pos = Vector3.Lerp(p1, p2, t);
+            var position = new Vector3(pos.x, -2.5f, pos.z);
+            position += new Vector3(0, Random.value * 0.01f, 0);
+
+            var hit = checkHitBox && Physics.CheckBox(position, scale / 2f, rotation);
+
+            if (!hit)
+            {
+                var block = Instantiate(blockPrefab, position, rotation, transform);
+                block.name = bridgeName;
+                block.transform.localScale = scale;
+                block.AddComponent<BoxCollider>();
+            }
+        }
+
+        // var block = Instantiate(blockPrefab, transform);
+        // block.name = bridgeName;
+        // block.transform.position = (p1 + p2) / 2f;
+        // block.transform.LookAt(p2);
+        // block.transform.localScale = new Vector3(1.5f, 0.5f, distance);
+        // block.transform.position -= new Vector3(0, 0.25f, 0);
     }
 
     private struct Node
