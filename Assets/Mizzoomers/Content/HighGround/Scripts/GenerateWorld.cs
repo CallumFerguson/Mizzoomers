@@ -54,6 +54,7 @@ public class GenerateWorld : NetworkBehaviour
                 {
                     break;
                 }
+
                 var x = Random.value * size;
                 var z = Random.value * size;
                 pos = new Vector2(x, z);
@@ -68,7 +69,7 @@ public class GenerateWorld : NetworkBehaviour
                 nodes.Add(node);
             }
         }
-        
+
         print($"Created {nodes.Count} nodes.");
 
         var edges = new HashSet<(int, int)>();
@@ -79,16 +80,20 @@ public class GenerateWorld : NetworkBehaviour
             var i2 = Random.Range(0, nodes.Count);
             if (i1 != i2 && !edges.Contains((i1, i2)))
             {
-                edges.Add((i1, i2));
+                if (!IntersectAny((i1, i2), edges, nodes))
+                {
+                    edges.Add((i1, i2));
+                }
             }
         }
-        
+
         print($"Created {edges.Count} edges.");
 
         for (int i = 0; i < nodes.Count; i++)
         {
             CreatePlatform(nodes[i]);
         }
+
 
         foreach (var edge in edges)
         {
@@ -106,6 +111,40 @@ public class GenerateWorld : NetworkBehaviour
         {
             var nodePos = new Vector2(nodes[n].pos.x, nodes[n].pos.z);
             if (Vector2.Distance(pos, nodePos) < space)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    //from: https://stackoverflow.com/questions/3838329/how-can-i-check-if-two-segments-intersect
+    private bool ccw(Vector2 A, Vector2 B, Vector2 C)
+    {
+        return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x);
+    }
+
+    //Return true if line segments AB and CD intersect
+    private bool Intersect(Vector2 A, Vector2 B, Vector2 C, Vector2 D)
+    {
+        return ccw(A, C, D) != ccw(B, C, D) && ccw(A, B, C) != ccw(A, B, D);
+    }
+
+    private bool Intersect((int, int) edge1, (int, int) edge2, List<Node> nodes)
+    {
+        var A = new Vector2(nodes[edge1.Item1].pos.x, nodes[edge1.Item1].pos.z);
+        var B = new Vector2(nodes[edge1.Item2].pos.x, nodes[edge1.Item2].pos.z);
+        var C = new Vector2(nodes[edge2.Item1].pos.x, nodes[edge2.Item1].pos.z);
+        var D = new Vector2(nodes[edge2.Item2].pos.x, nodes[edge2.Item2].pos.z);
+        return Intersect(A, B, C, D);
+    }
+
+    private bool IntersectAny((int, int) edge, HashSet<(int, int)> edges, List<Node> nodes)
+    {
+        foreach (var testEdge in edges)
+        {
+            if (Intersect(edge, testEdge, nodes))
             {
                 return true;
             }
