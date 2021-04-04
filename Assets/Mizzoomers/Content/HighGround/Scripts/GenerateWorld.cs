@@ -38,12 +38,12 @@ public class GenerateWorld : NetworkBehaviour
         Random.InitState(_seed);
         print("Generating world with seed: " + _seed);
 
-        const float size = 35f;
+        const float size = 45f;
         const float space = 7f;
         const float distanceSlopeRatio = 0.15f;
 
         var nodes = new List<Node>();
-        var height = new Vector2(size, size).magnitude * distanceSlopeRatio + 3;
+        var height = new Vector2(size, size).magnitude * distanceSlopeRatio + 1.75f;
         // var height = 0;
         
         //start platform
@@ -72,7 +72,7 @@ public class GenerateWorld : NetworkBehaviour
             if (attempts >= 0)
             {
                 Node node;
-                var nodeHeight = pos.magnitude * distanceSlopeRatio + (Random.value * 3);
+                var nodeHeight = pos.magnitude * distanceSlopeRatio + (Random.value * 1f);
                 // var nodeHeight = 0f;
                 node.pos = new Vector3(pos.x, nodeHeight, pos.y);
                 node.rotation = Quaternion.AngleAxis(Random.value * 360f, Vector3.up);
@@ -317,16 +317,22 @@ public class GenerateWorld : NetworkBehaviour
 
     private void CreateBridge(Vector3 p1, Vector3 p2, string bridgeName, bool checkHitBox)
     {
-        var distance = Vector3.Distance(p1, p2);
+        var flatDistance = Vector2.Distance(new Vector2(p1.x, p1.z), new Vector2(p2.x, p2.z));
         var heightDistance = Mathf.Abs(p1.y - p2.y);
-        if (distance < 3 && heightDistance < 1.5f)
+        
+        const float maxPlatformSpacingFlat = 3f;
+        const float maxPlatformSpacingHeight = 0.8f;
+        
+        if (flatDistance < maxPlatformSpacingFlat && heightDistance < maxPlatformSpacingHeight)
         {
             return;
         }
-
-        float maxPlatformSpacing = 2.5f + Random.value * 1.25f;
-        int numPlatforms = Mathf.FloorToInt(distance / maxPlatformSpacing);
-        numPlatforms = Mathf.Min(1, numPlatforms);
+        
+        int numPlatformsFlat = Mathf.FloorToInt(flatDistance / maxPlatformSpacingFlat);
+        int numPlatformsHeight = Mathf.FloorToInt(heightDistance / maxPlatformSpacingHeight);
+        
+        int numPlatforms = Mathf.Max(numPlatformsFlat, numPlatformsHeight);
+        numPlatforms = Mathf.Max(1, numPlatforms);
 
         for (int i = 0; i < numPlatforms; i++)
         {

@@ -6,6 +6,7 @@
         _Color ("Color", Color) = (1, 1, 1, 1)
         _Fog ("Fog", Color) = (1, 1, 1, 1)
         _FadeDistance ("Fade Distance", Float) = 1
+        _FadeEnd ("Fade End", Float) = 0
         _RandomizeColor ("RandomizeColor", Float) = 1
     }
     SubShader
@@ -52,7 +53,7 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float3 _Color, _Fog;
-            float _FadeDistance, _RandomizeColor;
+            float _FadeDistance, _RandomizeColor, _FadeEnd;
 
             v2f vert(appdata v)
             {
@@ -76,8 +77,8 @@
                 light = max(0, light) + 0.5;
 
                 col *= light;
-
-                float fade = saturate(i.worldPos.y / _FadeDistance);
+              
+                float fade = saturate((i.worldPos.y - _FadeEnd) / _FadeDistance);
                 fade -= 0.15 + lerp(0, i.randColor, _RandomizeColor);
                 fade = saturate(fade);
                 fade = fade * fade;
