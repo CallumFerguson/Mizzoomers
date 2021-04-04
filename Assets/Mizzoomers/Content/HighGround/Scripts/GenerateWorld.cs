@@ -39,12 +39,11 @@ public class GenerateWorld : NetworkBehaviour
 
         var nodes = new List<Node>();
 
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 50; i++)
         {
             const float size = 35f;
-            const float space = 7.5f;
-
-
+            const float space = 6.5f;
+            
             Vector2 pos = Vector2.zero;
             int attempts = 10;
             do
@@ -63,7 +62,7 @@ public class GenerateWorld : NetworkBehaviour
             if (attempts >= 0)
             {
                 Node node;
-                node.pos = new Vector3(pos.x, Random.value * 5, pos.y);
+                node.pos = new Vector3(pos.x, pos.magnitude * 0.15f + (Random.value * 1), pos.y);
                 node.rotation = Quaternion.identity;
                 node.scale = new Vector2(Random.value * 5 + 1, Random.value * 5 + 1);
                 nodes.Add(node);
@@ -72,28 +71,47 @@ public class GenerateWorld : NetworkBehaviour
 
         print($"Created {nodes.Count} nodes.");
 
+        var everyEdgeSorted = new SortedDictionary<float, (int, int)>();
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            for (int n = i + 1; n < nodes.Count; n++)
+            {
+                var distance = Vector3.Distance(nodes[i].pos, nodes[n].pos);
+                everyEdgeSorted.Add(distance, (i, n));
+            }
+        }
+        
+        print($"Every edge lengh: {everyEdgeSorted.Count}");
+        
         var edges = new HashSet<(int, int)>();
 
-        for (int i = 0; i < 100; i++)
+        int added = 25;
+        foreach (var pair in everyEdgeSorted)
         {
-            var i1 = Random.Range(0, nodes.Count);
-            var i2 = Random.Range(0, nodes.Count);
-            if (i1 != i2 && !edges.Contains((i1, i2)))
+            added--;
+            if (added == -1)
             {
-                if (!IntersectAny((i1, i2), edges, nodes))
-                {
-                    edges.Add((i1, i2));
-                }
+                break;
             }
+
+            edges.Add(pair.Value);
         }
 
         print($"Created {edges.Count} edges.");
 
+        var closestDistance = Mathf.Infinity;
+        var closestIndex = 0;
         for (int i = 0; i < nodes.Count; i++)
         {
             CreatePlatform(nodes[i]);
+            var distance = nodes[i].pos.magnitude;
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestIndex = i;
+            }
         }
-
+        CreateBridge(new Vector3(-2, 5, -2), nodes[closestIndex].pos + new Vector3(0, 5, 0));
 
         foreach (var edge in edges)
         {
