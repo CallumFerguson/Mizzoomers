@@ -15,8 +15,7 @@ public class GenerateWorld : NetworkBehaviour
     {
         System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         int cur_time = (int) (System.DateTime.UtcNow - epochStart).TotalSeconds;
-        // _seed = cur_time;
-        _seed = 0;
+        _seed = cur_time;
 
         if (isServer && !isClient)
         {
@@ -37,14 +36,18 @@ public class GenerateWorld : NetworkBehaviour
         }
 
         Random.InitState(_seed);
+        print("Generating world with seed: " + _seed);
+
+        const float size = 35f;
+        const float space = 5f;
+        const float distanceSlopeRatio = 0.3f;
 
         var nodes = new List<Node>();
+        var height = new Vector2(size, size).magnitude;
+        nodes.Add(new Node() {pos = new Vector3(size, height * distanceSlopeRatio + 3, size), rotation = Quaternion.identity, scale = new Vector2(2, 2)});
 
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 100; i++)
         {
-            const float size = 35f;
-            const float space = 6.5f;
-
             Vector2 pos = Vector2.zero;
             int attempts = 10;
             do
@@ -63,10 +66,16 @@ public class GenerateWorld : NetworkBehaviour
             if (attempts >= 0)
             {
                 Node node;
-                node.pos = new Vector3(pos.x, pos.magnitude * 0.15f + (Random.value * 1), pos.y);
+                node.pos = new Vector3(pos.x, pos.magnitude * distanceSlopeRatio + (Random.value * 3), pos.y);
                 node.rotation = Quaternion.identity;
                 node.scale = new Vector2(Random.value * 5 + 1, Random.value * 5 + 1);
-                nodes.Add(node);
+
+                var rotatedPos = node.pos - new Vector3(size / 2f, 0, size / 2f);
+                rotatedPos = Quaternion.AngleAxis(-45f, Vector3.up) * rotatedPos;
+                if (Mathf.Abs(rotatedPos.x) < size / 3f)
+                {
+                    nodes.Add(node);
+                }
             }
         }
 
@@ -81,8 +90,8 @@ public class GenerateWorld : NetworkBehaviour
                 while (everyEdgeSorted.ContainsKey(distance))
                 {
                     distance += 0.001f;
-
                 }
+
                 everyEdgeSorted.Add(distance, (i, n));
             }
         }
@@ -107,8 +116,7 @@ public class GenerateWorld : NetworkBehaviour
         }
 
         int edgesToAdd = Mathf.FloorToInt(nodes.Count / 2.5f);
-        int maxEdgeToTry = nodes.Count * 3;
-        int a = 0;
+        int maxEdgeToTry = nodes.Count * 4;
         foreach (var edge in everyEdgeSorted)
         {
             maxEdgeToTry--;
@@ -116,7 +124,8 @@ public class GenerateWorld : NetworkBehaviour
             {
                 break;
             }
-            if (Random.value < 0.25f)
+
+            if (Random.value < 0.2f)
             {
                 if (!IntersectAny(edge.Value, edges, nodes))
                 {
@@ -126,11 +135,9 @@ public class GenerateWorld : NetworkBehaviour
                     {
                         break;
                     }
-                    a++;
                 }
             }
         }
-        print(a);
 
         print($"Created {edges.Count} edges.");
 
