@@ -28,6 +28,22 @@ public class GenerateWorld : NetworkBehaviour
         CreateWorld();
     }
 
+    public override void OnStopClient()
+    {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+    }
+
+    public override void OnStopServer()
+    {
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+    }
+
     private void CreateWorld()
     {
         for (int i = transform.childCount - 1; i >= 0; i--)

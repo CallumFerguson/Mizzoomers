@@ -2008,7 +2008,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 1645011444}
-  networkAddress: localhost
+  networkAddress: 18.220.47.159
   maxConnections: 50
   disconnectInactiveConnections: 1
   disconnectInactiveTimeout: 60
