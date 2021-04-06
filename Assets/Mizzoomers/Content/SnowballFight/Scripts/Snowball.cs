@@ -11,7 +11,9 @@ public class Snowball : MonoBehaviour
     public Transform firePoint;
     public Rigidbody snowballPrefab;
 
-    public float sbSpeed = 100f;
+    public float sbSpeed = 300f;
+
+    bool canFire = true;
 
 
     // Start is called before the first frame update
@@ -23,24 +25,32 @@ public class Snowball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && canFire)
         {
-            throwSnowball();
+            StartCoroutine(throwSnowball());
         }
 
         
 
     }
 
-    public void throwSnowball()
+    IEnumerator throwSnowball()
     {
+        yield return new WaitForSeconds(0.4f);
+        
         GameObject sb = Instantiate(snowball, firePoint.position, firePoint.rotation);
         Rigidbody sbrb = sb.GetComponent<Rigidbody>();
 
         sbrb.velocity = transform.TransformDirection(Vector3.forward * sbSpeed);
+        canFire = false;
+
+        
 
         // snowballInstance.AddForce(firePoint.forward * sbSpeed);
-        Destroy(sb, 3f);
+        Destroy(sb, 1.5f);
+
+        yield return new WaitForSeconds(3.0f);
+        canFire = true;
 
     }
 

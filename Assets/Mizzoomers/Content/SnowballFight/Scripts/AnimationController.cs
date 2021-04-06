@@ -12,6 +12,8 @@ public class AnimationController : MonoBehaviour
 
     public ThirdPersonMovement controller;
     public Transform groundCheck;
+
+    
     
     // Start is called before the first frame update
     void Start()
@@ -35,5 +37,19 @@ public class AnimationController : MonoBehaviour
 
         var running = direction.magnitude > 0.01f;
         animator.SetBool(isRunningHash, running);
+
+        if (Input.GetKeyDown("f"))
+        {
+            animator.SetBool(throwHash, true);
+            StartCoroutine(DisableThrow());
+        }
+
+        IEnumerator DisableThrow()
+        {
+            yield return new WaitForSeconds(1.0f);
+            animator.SetBool(throwHash, false);
+        }
+
+        
     }
 }
