@@ -7,6 +7,10 @@ public class AnimationController : MonoBehaviour
     Animator animator;
     int isRunningHash;
     int isJumpingHash;
+    int inAirHash;
+    int throwHash;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -14,6 +18,8 @@ public class AnimationController : MonoBehaviour
         animator = GetComponent<Animator>();
         isRunningHash = Animator.StringToHash("isRunning");
         isJumpingHash = Animator.StringToHash("isJumping");
+        inAirHash = Animator.StringToHash("inAir");
+        throwHash = Animator.StringToHash("throw");
     }
 
     // Update is called once per frame
@@ -24,10 +30,24 @@ public class AnimationController : MonoBehaviour
         bool left = Input.GetKey("a");
         bool backward = Input.GetKey("s");
 
-        bool jump = Input.GetKey("space");
+        bool jump = Input.GetKey(KeyCode.Space);
+
+        bool throwSnowball = Input.GetKey("f");
 
         bool isRunning = animator.GetBool(isRunningHash);
         bool isJumping = animator.GetBool(isJumpingHash);
+        bool inAir = animator.GetBool(inAirHash);
+        bool throwing = animator.GetBool(throwHash);
+
+
+
+        
+        if (throwSnowball && !throwing)
+        {
+            animator.SetBool(throwHash, true);
+        }
+        
+
 
         if (forward && !isRunning)
         {
@@ -38,7 +58,7 @@ public class AnimationController : MonoBehaviour
         {
             animator.SetBool(isRunningHash, false);
         }
-
+        
         if (right)
         {
             animator.SetBool(isRunningHash, true);
@@ -54,10 +74,22 @@ public class AnimationController : MonoBehaviour
             animator.SetBool(isRunningHash, true);
         }
 
-        if (jump && !isJumping)
+        if((jump && isRunning) || (jump && !isRunning))
         {
             animator.SetBool(isJumpingHash, true);
+            animator.SetBool(inAirHash, true);
         }
 
+        if(inAir && isJumping)
+        {
+            animator.SetBool(isJumpingHash, false);
+            animator.SetBool(inAirHash, false);
+        }
+        
+
+        
+
     }
+
+    
 }
