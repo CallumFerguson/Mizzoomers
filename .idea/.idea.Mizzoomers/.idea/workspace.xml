@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d78ae2ab-4041-416c-9e7c-4c23b23fa941" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/Hover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/Hover.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/HighGround.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/HighGround.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Animations/Player Animator.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Animations/Player Animator.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Animations/Throw.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Animations/Throw.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/AnimationController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/AnimationController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/ThirdPersonMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/ThirdPersonMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/SnowScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/SnowScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +24,9 @@
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/Hover.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/18652B59-14B1-4E07-A740-76A4608F13E3/41/c768f4e7/Input.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/HighGroundPlayerController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.6.3/Runtime/Core/AxisState.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -32,6 +38,8 @@
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/Hover.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/GenerateWorld.cs" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/AnimationController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/ThirdPersonMovement.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1nqIzRFVBPMMa26K1BAt52EYfO3" />
@@ -90,6 +98,7 @@
       <workItem from="1617135928275" duration="2034000" />
       <workItem from="1617464290893" duration="26129000" />
       <workItem from="1617549934110" duration="14099000" />
+      <workItem from="1617733319677" duration="1510000" />
     </task>
     <servers />
   </component>

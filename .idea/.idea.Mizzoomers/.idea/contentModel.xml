@@ -406,6 +406,14 @@
                 <e p="SkyFog.shader" t="Include" />
               </e>
             </e>
+            <e p="SnowballFight" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="AnimationController.cs" t="Include" />
+                <e p="HealthBar.cs" t="Include" />
+                <e p="Snowball.cs" t="Include" />
+                <e p="ThirdPersonMovement.cs" t="Include" />
+              </e>
+            </e>
           </e>
         </e>
         <e p="Smooth Sync" t="Include">
