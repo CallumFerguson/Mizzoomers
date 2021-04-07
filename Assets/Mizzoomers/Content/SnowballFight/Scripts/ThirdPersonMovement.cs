@@ -6,6 +6,7 @@ using UnityEngine;
 public class ThirdPersonMovement : MonoBehaviour
 {
     public CharacterController controller;
+    
 
     // have camera follow player
     public Transform cam;
@@ -33,6 +34,10 @@ public class ThirdPersonMovement : MonoBehaviour
     public HealthBar healthBar;
     public CinemachineFreeLook freeLook;
 
+    public Snowball snowball;
+
+    public bool hit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +49,7 @@ public class ThirdPersonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(currentHealth);
         // create a sphere at bottom of player to see if it hits the ground
         isGrounded = Physics.CheckBox(groundCheck.position, groundCheck.localScale / 2f, groundCheck.rotation);
 
@@ -87,11 +93,14 @@ public class ThirdPersonMovement : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
+        
+
         // test function works
-        if (Input.GetKeyDown(KeyCode.B))
+        /*if (Input.GetKeyDown(KeyCode.B))
         {
             Damage(10);
         }
+        */
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -106,13 +115,26 @@ public class ThirdPersonMovement : MonoBehaviour
         var camOn = Cursor.lockState == CursorLockMode.None ? 0 : 1;
         freeLook.m_XAxis.m_MaxSpeed = camOn * 450;
         freeLook.m_YAxis.m_MaxSpeed = camOn * 4;
+
     }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.name == "Snowball 1")
+        {
+            Damage(20);
+            hit = true;
+        }
+    }
+
 
     public void Damage(int damage)
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
     }
+
+    
 
 
 }

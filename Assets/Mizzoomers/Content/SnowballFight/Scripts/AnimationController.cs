@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
-    Animator animator;
+    public Animator animator;
     int isRunningHash;
     // int isJumpingHash;
     int inAirHash;
     int throwHash;
+    int hitHash;
 
     public ThirdPersonMovement controller;
     public Transform groundCheck;
@@ -23,6 +24,7 @@ public class AnimationController : MonoBehaviour
         // isJumpingHash = Animator.StringToHash("isJumping");
         inAirHash = Animator.StringToHash("inAir");
         throwHash = Animator.StringToHash("throw");
+        hitHash = Animator.StringToHash("hit");
     }
 
     // Update is called once per frame
@@ -38,7 +40,7 @@ public class AnimationController : MonoBehaviour
         var running = direction.magnitude > 0.01f;
         animator.SetBool(isRunningHash, running);
 
-        if (Input.GetKeyDown("f"))
+        if (Input.GetButtonDown("Fire1"))
         {
             animator.SetBool(throwHash, true);
             StartCoroutine(DisableThrow());
@@ -50,6 +52,22 @@ public class AnimationController : MonoBehaviour
             animator.SetBool(throwHash, false);
         }
 
+        if(controller.hit == true)
+        {
+            animator.SetBool(hitHash, true);
+            controller.hit = false;
+            StartCoroutine(DisableHit());
+        }
+
+        IEnumerator DisableHit()
+        {
+            yield return new WaitForSeconds(0.2f);
+            animator.SetBool(hitHash, false);
+        }
+
         
+
     }
+
+    
 }

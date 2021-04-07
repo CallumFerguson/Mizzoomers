@@ -230,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93e5aec3845a97469b69a4897bd5f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   controller: {fileID: 1893933263}
   groundCheck: {fileID: 806679747}
 --- !u!1 &91009427
@@ -716,7 +717,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244980352}
-  m_LocalRotation: {x: 0.09897818, y: -0.000000008560945, z: 8.515281e-10, w: 0.9950896}
+  m_LocalRotation: {x: 0.09897818, y: 0.000000008560946, z: -8.515282e-10, w: 0.9950896}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1354,7 +1355,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1367954211}
-  m_LocalRotation: {x: 0.13505943, y: 0.0000000151656, z: -0.0000000020671982, w: 0.9908375}
+  m_LocalRotation: {x: 0.13505943, y: 0.000000015165586, z: -0.0000000020671962, w: 0.9908375}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1439,7 +1440,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448806290}
-  m_LocalRotation: {x: 0.11973798, y: 0.003687216, z: -0.00044470228, w: 0.9927986}
+  m_LocalRotation: {x: 0.11973771, y: 0.0042820284, z: -0.00051644054, w: 0.99279624}
   m_LocalPosition: {x: 593, y: 10.52, z: 788.62}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -1642,7 +1643,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629917572}
-  m_LocalRotation: {x: 0.119737975, y: 0.003687215, z: -0.00044470208, w: 0.9927986}
+  m_LocalRotation: {x: 0.11973769, y: 0.0042820275, z: -0.0005164405, w: 0.9927962}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1746,6 +1747,7 @@ GameObject:
   - component: {fileID: 1893933264}
   - component: {fileID: 1893933263}
   - component: {fileID: 1893933265}
+  - component: {fileID: 1893933266}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -1798,6 +1800,8 @@ MonoBehaviour:
   maxHealth: 100
   healthBar: {fileID: 401046909}
   freeLook: {fileID: 91009428}
+  snowball: {fileID: 0}
+  hit: 0
 --- !u!143 &1893933264
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1834,6 +1838,20 @@ MonoBehaviour:
   snowballPrefab: {fileID: 8801626384608902424, guid: 7e65403aa6224b44995b903aff25f53c,
     type: 3}
   sbSpeed: 20
+--- !u!136 &1893933266
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893933261}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.75
+  m_Height: 2.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2093228849
 GameObject:
   m_ObjectHideFlags: 0
