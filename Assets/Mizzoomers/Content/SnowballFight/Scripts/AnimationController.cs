@@ -10,6 +10,7 @@ public class AnimationController : MonoBehaviour
     int inAirHash;
     int throwHash;
     int hitHash;
+    int fallHash;
 
     public ThirdPersonMovement controller;
     public Transform groundCheck;
@@ -25,6 +26,7 @@ public class AnimationController : MonoBehaviour
         inAirHash = Animator.StringToHash("inAir");
         throwHash = Animator.StringToHash("throw");
         hitHash = Animator.StringToHash("hit");
+        fallHash = Animator.StringToHash("fall"); 
     }
 
     // Update is called once per frame
@@ -61,8 +63,20 @@ public class AnimationController : MonoBehaviour
 
         IEnumerator DisableHit()
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
             animator.SetBool(hitHash, false);
+        }
+
+        if(controller.GetCurrentHealth() == 0)
+        {
+            animator.SetBool(fallHash, true);
+            StartCoroutine(DisableFall());
+        }
+
+        IEnumerator DisableFall()
+        {
+            yield return new WaitForSeconds(0.5f);
+            animator.SetBool(fallHash, false);
         }
 
         

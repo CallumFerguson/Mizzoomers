@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c34307182ac2cb948a6c9fc586756e14, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,5 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce740a5b95599cf408d43a96875722a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 8801626384608902424}
+  snowball: {fileID: 0}
+  firePoint: {fileID: 0}
+  snowballPrefab: {fileID: 0}
   sbSpeed: 15

@@ -116,6 +116,11 @@ public class ThirdPersonMovement : MonoBehaviour
         freeLook.m_XAxis.m_MaxSpeed = camOn * 450;
         freeLook.m_YAxis.m_MaxSpeed = camOn * 4;
 
+        /*if (currentHealth == 0)
+        {
+            controller.enabled = false;
+        }
+        */
     }
 
     void OnCollisionEnter(Collision col)
@@ -127,6 +132,8 @@ public class ThirdPersonMovement : MonoBehaviour
         }
     }
 
+    
+
 
     public void Damage(int damage)
     {
@@ -134,7 +141,14 @@ public class ThirdPersonMovement : MonoBehaviour
         healthBar.SetHealth(currentHealth);
     }
 
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
     
+
+
 
 
 }
