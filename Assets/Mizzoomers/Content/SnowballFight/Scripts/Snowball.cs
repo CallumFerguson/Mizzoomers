@@ -47,7 +47,7 @@ public class Snowball : MonoBehaviour
         
 
         // snowballInstance.AddForce(firePoint.forward * sbSpeed);
-        Destroy(sb, 1.5f);
+        Destroy(sb, 2.5f);
 
         yield return new WaitForSeconds(0.5f);
         canFire = true;
