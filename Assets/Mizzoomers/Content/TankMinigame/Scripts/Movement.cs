@@ -142,4 +142,7 @@ public class Movement : NetworkBehaviour {
 		
 		
 	}
+	public bool ISPlayer(){
+		return isLocalPlayer;
+	}
 }

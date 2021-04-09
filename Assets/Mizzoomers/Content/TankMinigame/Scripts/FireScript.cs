@@ -17,10 +17,12 @@ public class FireScript : NetworkBehaviour
     private bool timerRunning;
     public float fireTime;
     private float timeLeft;
-	public float Damage;
-	public float NormalDamage;
-	public float PowerupDamage;
+	public int Damage;
+	public int NormalDamage;
+	public int PowerupDamage;
 	public float PowerupTimer;
+	public int PlayerScore;
+	public Text ScoreText;
 	
     
     void Start()
@@ -38,6 +40,7 @@ public class FireScript : NetworkBehaviour
     {
         if (Input.GetKey("space") && canFire == true && isLocalPlayer)
         {
+			canFire = false;
             GameObject clone;
             GameObject flash;
             clone = Instantiate(Projectile, EndOfBarrel.position, EndOfBarrel.rotation);
@@ -52,7 +55,7 @@ public class FireScript : NetworkBehaviour
 
             timerRunning = true;
             timeLeft = fireTime;
-            canFire = false;
+            
         }
         if(timerRunning == true)
         {
@@ -71,6 +74,9 @@ public class FireScript : NetworkBehaviour
 			PowerupTimer -= Time.deltaTime;
 			
 		}
+		
+		ScoreText.text = "Score: " + PlayerScore.ToString();
+		
     }
 	void OnCollisionEnter(Collision collision){
 		
@@ -81,6 +87,9 @@ public class FireScript : NetworkBehaviour
 		}
 		
 		
+	}
+	public void Score(int score){
+		PlayerScore += score;
 	}
 
 }

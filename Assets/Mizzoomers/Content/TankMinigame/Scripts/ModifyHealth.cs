@@ -16,7 +16,11 @@ public class ModifyHealth : NetworkBehaviour
 	public GameObject Explosion;
 	public GameObject Fire;
 	public GameObject Player;
+	GameObject explode;
+	GameObject fire;
 	public bool dead;
+	//public GameObject turret;
+	
 	public float deathTimer;
 	public float healthTimer;
 	
@@ -28,6 +32,7 @@ public class ModifyHealth : NetworkBehaviour
 		PowerupTimer = 0;
 		dead = false;
 		healthTimer = 0;
+		
     }
 
     // Update is called once per frame
@@ -56,6 +61,8 @@ public class ModifyHealth : NetworkBehaviour
 			if(deathTimer <= 0){
 				Destroy(Player);
 			}
+			explode.transform.position = Player.transform.position;
+			fire.transform.position = Player.transform.position;
 		}
     }
 	public void ChangeHealth(float change)
@@ -84,8 +91,8 @@ public class ModifyHealth : NetworkBehaviour
 		
 	}
 	void DIE(){
-		GameObject explode;
-		GameObject fire;
+		Player.tag = "DeadPlayer";
+		
 		explode = Instantiate(Explosion,transform.position, transform.rotation);
 		fire = Instantiate(Fire,transform.position , transform.rotation);
 		Door1.transform.Rotate(0.0f,0.0f,-90.0f);
@@ -93,11 +100,11 @@ public class ModifyHealth : NetworkBehaviour
 		DoorTop.transform.Rotate(-90.0f,0.0f,0.0f);
 		Player.GetComponent<Movement>().enabled = false;
 		Player.GetComponent<FireScript>().enabled = false;
-		GameObject turret = Player.transform.GetChild(0).gameObject;
-		turret.GetComponent<turretRotation>().enabled = false;
-		GameObject barrelBase = turret.transform.GetChild(2).gameObject;
-		GameObject barrel = barrelBase.transform.GetChild(0).gameObject;
-		barrel.GetComponent<BarrelMovement>().enabled = false;
+		
+		//turret.GetComponent<turretRotation>().enabled = false;
+		//GameObject barrelBase = turret.transform.GetChild(2).gameObject;
+		//GameObject barrel = barrelBase.transform.GetChild(0).gameObject;
+		//barrel.GetComponent<BarrelMovement>().enabled = false;
 		
 	}
 }

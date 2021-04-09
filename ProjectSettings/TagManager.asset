@@ -10,6 +10,8 @@ TagManager:
   - CannonPowerup
   - HealthPowerup
   - Projectile
+  - SpawnPoint
+  - DeadPlayer
   layers:
   - Default
   - TransparentFX
