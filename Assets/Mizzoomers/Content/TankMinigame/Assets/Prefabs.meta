@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Mizzoomers/Content/TankMinigame/Assets/Prefabs.meta
 guid: ae514f6e03f1a82499c8eb0462189c4e
+=======
+guid: dd616ec5ef8e3044588e15ef78fafe57
+>>>>>>> origin/HighGround:Assets/Mizzoomers/Content/HighGround/Prefabs.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

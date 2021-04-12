@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/FlexibleCelShader.meta
 guid: 02a49795a6d88a844bd967734618a98b
+=======
+guid: a167f53111642274d8863d155bc0e978
+>>>>>>> origin/HighGround:Assets/Materials.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

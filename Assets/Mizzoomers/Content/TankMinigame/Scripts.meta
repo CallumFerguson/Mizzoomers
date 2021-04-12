@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Mizzoomers/Content/TankMinigame/Scripts.meta
 guid: 5dc493f91048bda42845beba45e79bd4
+=======
+guid: b336d1c265e1d7c4b918f784822951a5
+>>>>>>> origin/HighGround:Assets/Mizzoomers/Content/HighGround/Scripts.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
