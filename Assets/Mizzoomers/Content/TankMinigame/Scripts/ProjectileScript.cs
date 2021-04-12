@@ -34,7 +34,13 @@ public class ProjectileScript : MonoBehaviour
 			ProjectileCollider.enabled = false;
             GameObject explode;
             explode = Instantiate(Explosion,transform.position, transform.rotation);
-			float healthBeforeHit = collision.gameObject.GetComponent<ModifyHealth>().health;
+			float healthBeforeHit = 100;
+			try{
+				healthBeforeHit = collision.gameObject.GetComponent<ModifyHealth>().health;
+			} catch {
+				
+			}
+			
 			collision.gameObject.GetComponent<ModifyHealth>().ChangeHealth(-damage);
 			if(healthBeforeHit > 0){
 				firingTank.GetComponent<FireScript>().Score(damage);
