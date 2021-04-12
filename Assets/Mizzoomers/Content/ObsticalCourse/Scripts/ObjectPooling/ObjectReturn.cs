@@ -9,7 +9,7 @@ public class ObjectReturn : MonoBehaviour
     private bool enteredTrigger = false;
     private void OnTriggerEnter(Collider other)
     {
-        enteredTrigger = true;
+        if(other.tag=="poolingTrigger") enteredTrigger = true;
     }
 
     // Start is called before the first frame update
@@ -26,6 +26,7 @@ public class ObjectReturn : MonoBehaviour
             if (objectPool != null)
             {
                 objectPool.ReturnSphere(this.gameObject);
+                enteredTrigger = false;
             }
         }
     }

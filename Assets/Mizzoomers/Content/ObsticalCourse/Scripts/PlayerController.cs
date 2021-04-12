@@ -18,13 +18,6 @@ public class PlayerController : MonoBehaviour
     private const float JumpCooldown = 0.5f;
     private const float JumpVelocity = 5f;
 
-/*    private float _lastPushTime = -PushCooldown;
-    private const float PushCooldown = 0.3f;
-    private const float PushRadius = 3f / 2f;
-
-    private float _lastBlockTime = -BlockCooldown;
-    private const float BlockCooldown = 0.3f;*/
-
     private int _playerMask;
     private int _allButPlayerMask;
 
@@ -88,21 +81,6 @@ public class PlayerController : MonoBehaviour
 
         _playerAnimator.SetBool(_isJumpingHash, Time.time - _lastJumpTime < 0.85f && !grounded);
 
-/*        //push
-        if (Input.GetKeyDown(KeyCode.J) && Time.time - _lastPushTime >= PushCooldown)
-        {
-            _lastPushTime = Time.time;
-            CmdPushPlayers();
-        }
-
-        //block
-        if (Input.GetKeyDown(KeyCode.K) && Time.time - _lastBlockTime >= BlockCooldown)
-        {
-            _lastBlockTime = Time.time;
-            CmdBlock();
-        }*/
-
-
         var horizontalVelocity = _body.velocity;
         horizontalVelocity.y = 0;
         var mag = horizontalVelocity.magnitude;
@@ -147,40 +125,6 @@ public class PlayerController : MonoBehaviour
 
         _body.angularVelocity = Vector3.zero;
     }
-
-/*    [Command]
-    private void CmdPushPlayers()
-    {
-        Debug.Log("Pushed!");
-*//*        var hits = Physics.OverlapSphere(connectionToClient.identity.transform.position, PushRadius, _playerMask);
-        for (int i = 0; i < hits.Length; i++)
-        {
-            var hit = hits[i].attachedRigidbody;
-            if (hit)
-            {
-                var hitIdentity = hit.GetComponent<NetworkIdentity>();
-                if (hitIdentity && hitIdentity != netIdentity)
-                {
-                    var hitController = hit.GetComponent<HighGroundPlayerController>();
-                    if (hitController && hitIdentity.connectionToClient != null)
-                    {
-                        hitController.RpcGetPushed(hitIdentity.connectionToClient);
-                    }
-                }
-            }
-        }*//*
-    }
-
-    [TargetRpc]
-    private void RpcGetPushed(NetworkConnection target)
-    {
-        print("I got pushed");
-    }
-
-    [Command]
-    private void CmdBlock()
-    {
-    }*/
 
     private bool Grounded()
     {

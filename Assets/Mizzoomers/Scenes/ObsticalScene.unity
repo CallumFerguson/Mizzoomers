@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a682270f5afa5742a3bc982a16f2474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1238239513}
   respawnPoint: {fileID: 1978648284}
 --- !u!65 &144244539
 BoxCollider:
@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a682270f5afa5742a3bc982a16f2474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1238239513}
   respawnPoint: {fileID: 979684942}
 --- !u!65 &248293711
 BoxCollider:
@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a682270f5afa5742a3bc982a16f2474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1238239513}
   respawnPoint: {fileID: 1896905190}
 --- !u!65 &545751408
 BoxCollider:
@@ -912,7 +912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a682270f5afa5742a3bc982a16f2474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1238239513}
   respawnPoint: {fileID: 996527888}
 --- !u!65 &960641523
 BoxCollider:
@@ -1331,6 +1331,12 @@ MonoBehaviour:
   spherePrefab: {fileID: 5880916713932647797, guid: 3ce5e6d6ce0a3ca4a8b1f53d9991fcc6,
     type: 3}
   poolStartSize: 6
+--- !u!4 &1238239513 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2907482006304205246, guid: 59b8b0b9a36f6ce4898c6a37e8ee7093,
+    type: 3}
+  m_PrefabInstance: {fileID: 851517481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1464451592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1390,7 +1396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a682270f5afa5742a3bc982a16f2474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1238239513}
   respawnPoint: {fileID: 627781774}
 --- !u!65 &1486585685
 BoxCollider:
@@ -1754,7 +1760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a682270f5afa5742a3bc982a16f2474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1238239513}
   respawnPoint: {fileID: 2055445303}
 --- !u!65 &1778007195
 BoxCollider:
