@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - FxTemporaire
+  - pendulum
+  - rollingBall
+  - respawner
+  - SpinDisk
+  - Cylinder
   layers:
   - Default
   - TransparentFX

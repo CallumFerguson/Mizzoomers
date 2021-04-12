@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private const float MaxFallSpeed = 25f;
 
     private float _lastJumpTime = -JumpCooldown;
-    private const float JumpCooldown = 0.5f;
+    private const float JumpCooldown = 1f;
     private const float JumpVelocity = 5f;
 
     private int _playerMask;
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
         _playerAnimator.SetBool(_isRunningHash, mag > 1f);
         
-        print(_playerAnimator.GetBool(_isRunningHash) + " " + _playerAnimator.GetBool(_inAirHash) + " " + _playerAnimator.GetBool(_isJumpingHash));
+        //print(_playerAnimator.GetBool(_isRunningHash) + " " + _playerAnimator.GetBool(_inAirHash) + " " + _playerAnimator.GetBool(_isJumpingHash));
     }
 
     void FixedUpdate()
@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour
         velocityDifference.y = 0;
 
         _body.velocity += velocityDifference;
+
 
         if (!Input.GetKey(KeyCode.Space) && !Grounded() || _body.velocity.y <= 0)
         {
@@ -149,9 +150,6 @@ public class PlayerController : MonoBehaviour
 
         targetVelocity = Vector3.Normalize(targetVelocity);
 
-        //the camera is rotated 45 degrees, so this make the direction relative to the camera
-        var rotationFix = Quaternion.AngleAxis(45f, Vector3.up);
-
-        return rotationFix * targetVelocity;
+        return targetVelocity;
     }
 }

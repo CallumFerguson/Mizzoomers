@@ -9,7 +9,11 @@ public class Respawn : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Respawning!");
-        player.transform.position = respawnPoint.transform.position;
+        Debug.Log(other);
+        if(other.tag == "Player")
+        {
+            Debug.Log("Respawning!");
+            player.transform.position = respawnPoint.transform.position;
+        }
     }
 }
