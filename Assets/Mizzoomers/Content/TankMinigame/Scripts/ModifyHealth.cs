@@ -58,11 +58,12 @@ public class ModifyHealth : NetworkBehaviour
 		if(dead == true)
 		{
 			deathTimer -= Time.deltaTime;
+			explode.transform.position = Player.transform.position;
+			fire.transform.position = Player.transform.position;
 			if(deathTimer <= 0){
 				Destroy(Player);
 			}
-			explode.transform.position = Player.transform.position;
-			fire.transform.position = Player.transform.position;
+			
 		}
     }
 	public void ChangeHealth(float change)
