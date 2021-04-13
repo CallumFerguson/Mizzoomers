@@ -9,7 +9,7 @@ public class ObjectReturn : MonoBehaviour
     private bool enteredTrigger = false;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag=="poolingTrigger") enteredTrigger = true;
+        if(other.tag=="respawner") enteredTrigger = true;
     }
 
     // Start is called before the first frame update

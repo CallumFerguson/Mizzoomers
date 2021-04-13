@@ -7,7 +7,7 @@ public class ObjectPool : MonoBehaviour
 {
     public GameObject spherePrefab;
     public Queue<GameObject> spherePool = new Queue<GameObject>();
-    public int poolStartSize = 6;
+    public int poolStartSize = 12;
 
     private void Start()
     {

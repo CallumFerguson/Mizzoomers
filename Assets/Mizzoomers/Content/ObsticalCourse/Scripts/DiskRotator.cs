@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class DiskRotator : MonoBehaviour
 {
-    public float speed = 2f;
     public float direction = 1;
+    private Rigidbody rb;
+    public Vector3 eulerVelocity;
 
-
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        transform.Rotate(0f, 0f, direction * speed * Time.deltaTime / 0.01f, Space.Self);
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        Quaternion deltaRotation = Quaternion.Euler(eulerVelocity* direction * Time.fixedDeltaTime);
+        rb.MoveRotation(rb.rotation * deltaRotation);
     }
 }
