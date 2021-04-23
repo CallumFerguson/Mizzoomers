@@ -7,8 +7,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController localPlayer;
-
     private Rigidbody _body;
+    public Transform cam;
 
     private const float TargetSpeed = 5f;
     private const float MaxVelocityChange = 1.25f;
@@ -25,12 +25,13 @@ public class PlayerController : MonoBehaviour
     private int _isRunningHash;
     private int _inAirHash;
     private int _isJumpingHash;
-    private int _isStunnedHash;
     private float _inAirTimer;
 
-    private float timeSinceStunned;
-    private float stunTime = 0.5f;
-    private bool hit = false;
+    /*    private int _isStunnedHash;*/
+
+    /*    private float timeSinceStunned;
+        private float stunTime = 0.5f;
+        private bool hit = false;*/
 
     void Start()
     {
@@ -45,7 +46,7 @@ public class PlayerController : MonoBehaviour
         _isRunningHash = Animator.StringToHash("isRunning");
         _inAirHash = Animator.StringToHash("inAir");
         _isJumpingHash = Animator.StringToHash("isJumping");
-       // _isStunnedHash = Animator.StringToHash("isStunned");
+       
     }
 
 /*    public override void OnStartClient()
@@ -107,10 +108,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-/*        if (!isLocalPlayer)
-        {
-            return;
-        }*/
+        /*        if (!isLocalPlayer)
+                {
+                    return;
+                }*/
 
         var targetDirection = GetTargetDirection();
         targetDirection.y = 0;
@@ -136,17 +137,6 @@ public class PlayerController : MonoBehaviour
 
         _body.angularVelocity = Vector3.zero;
 
- /*       //Ball hits player
-        if (hit)
-        {
-            _body.velocity = Vector3.zero;
-            timeSinceStunned += Time.deltaTime;
-            if(timeSinceStunned >= stunTime)
-            {
-                hit = false;
-                timeSinceStunned = 0;
-            }
-        }*/
     }
 
     private bool Grounded()
@@ -172,9 +162,13 @@ public class PlayerController : MonoBehaviour
 
         targetVelocity = Vector3.Normalize(targetVelocity);
 
-        return targetVelocity;
+        float targetAngle = Mathf.Atan2(targetVelocity.x, targetVelocity.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+        Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+        return targetVelocity.magnitude>=0.1f ? moveDirection.normalized: Vector3.zero;
     }
 
+    //Scrapping for now since the ball will still push the player/ block movement
     //When the rolling ball hits the character
 /*    private void OnCollisionEnter(Collision collision)
     {
