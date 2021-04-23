@@ -9,12 +9,12 @@ public class Respawn : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
+        //Debug.Log(other);
         if(other.tag == "Player")
         {
             Debug.Log("Respawning!");
+            //player.transform.Rotate(180, 0, 0, Space.Self); //Why no work
             player.transform.position = respawnPoint.transform.position;
-            //player.transform.Rotate(180, 0, 0, Space.Self);
         }
     }
 }
