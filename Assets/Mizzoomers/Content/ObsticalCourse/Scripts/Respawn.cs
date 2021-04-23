@@ -14,6 +14,7 @@ public class Respawn : MonoBehaviour
         {
             Debug.Log("Respawning!");
             player.transform.position = respawnPoint.transform.position;
+            //player.transform.Rotate(180, 0, 0, Space.Self);
         }
     }
 }
