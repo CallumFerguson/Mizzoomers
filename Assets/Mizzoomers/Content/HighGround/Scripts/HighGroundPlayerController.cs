@@ -9,6 +9,8 @@ public class HighGroundPlayerController : NetworkBehaviour
 {
     public static HighGroundPlayerController localPlayer;
 
+    [SyncVar] public NetworkIdentity owner;
+
     private Rigidbody _body;
 
     private const float TargetSpeed = 5f;
@@ -52,19 +54,23 @@ public class HighGroundPlayerController : NetworkBehaviour
         if (!_body)
             _body = GetComponent<Rigidbody>();
 
-        _body.isKinematic = !isLocalPlayer;
+        _body.isKinematic = !owner.isLocalPlayer;
 
-        if (!isLocalPlayer)
+        if (!owner.isLocalPlayer)
         {
             return;
         }
 
         localPlayer = this;
+
+        var startPosition = NetworkManagerGame.singleton.GetStartPosition();
+        transform.position = startPosition.position;
+        transform.rotation = startPosition.rotation;
     }
 
     void Update()
     {
-        if (!isLocalPlayer)
+        if (!owner.isLocalPlayer)
         {
             return;
         }
@@ -120,7 +126,7 @@ public class HighGroundPlayerController : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!isLocalPlayer)
+        if (!owner.isLocalPlayer)
         {
             return;
         }

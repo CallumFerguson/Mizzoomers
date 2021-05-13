@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Mirror
@@ -11,14 +12,14 @@ namespace Mirror
     [HelpURL("https://mirror-networking.com/docs/Articles/Components/NetworkStartPosition.html")]
     public class NetworkStartPosition : MonoBehaviour
     {
-        public void Awake()
-        {
-            NetworkManager.RegisterStartPosition(transform);
-        }
-
-        public void OnDestroy()
+        private void OnDisable()
         {
             NetworkManager.UnRegisterStartPosition(transform);
+        }
+
+        private void OnEnable()
+        {
+            NetworkManager.RegisterStartPosition(transform);
         }
     }
 }

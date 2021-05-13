@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class Movement : NetworkBehaviour {
+public class Movement : NetworkBehaviour
+{
 
+	public NetworkIdentity owner;
+	
 	// Use this for initialization
 	public float moveSpeed;
 	public float turnSpeed;
@@ -30,8 +33,7 @@ public class Movement : NetworkBehaviour {
 	public Transform Cam2;
 	public Camera Playercamera;
 	bool camPosition;
-	
-	
+
 	void Start () {
 		
 		startTime = 0f;
@@ -44,7 +46,7 @@ public class Movement : NetworkBehaviour {
 		Playercamera.fieldOfView = 60.0f;
 		
 		Playercamera.enabled = false;
-		if(isLocalPlayer){
+		if(owner.isLocalPlayer){
 			Playercamera.enabled = true;
 		}
 	}
@@ -52,7 +54,7 @@ public class Movement : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if(!(transform.localEulerAngles.z >= 90 && transform.localEulerAngles.z <= 270) && MoveEnabled == true && isLocalPlayer)
+		if(!(transform.localEulerAngles.z >= 90 && transform.localEulerAngles.z <= 270) && MoveEnabled == true && owner.isLocalPlayer)
 		{
 			if (Input.GetKey (KeyCode.A))
 				transform.Rotate (0.0f,-turnSpeed * Time.deltaTime,0.0f);
@@ -63,20 +65,20 @@ public class Movement : NetworkBehaviour {
 			if (Input.GetKey (KeyCode.S))
 				transform.Translate ( 0.0f, 0.0f, -moveSpeed * Time.deltaTime);
 		}
-		if(Input.GetKeyDown(KeyCode.O)&& isLocalPlayer)
+		if(Input.GetKeyDown(KeyCode.O)&& owner.isLocalPlayer)
 		{
 			startTime = Time.time;
 			reset = true;
 		}
-		if(Input.GetKeyUp(KeyCode.O) && isLocalPlayer)
+		if(Input.GetKeyUp(KeyCode.O) && owner.isLocalPlayer)
 		{
 			reset = false;
 		}
-		if (Input.GetKey (KeyCode.LeftArrow )&& isLocalPlayer)
+		if (Input.GetKey (KeyCode.LeftArrow )&& owner.isLocalPlayer)
 			Turret.transform.Rotate (0.0f,0.0f,-TurretturnSpeed * Time.deltaTime);
-		if (Input.GetKey (KeyCode.RightArrow )&& isLocalPlayer)
+		if (Input.GetKey (KeyCode.RightArrow )&& owner.isLocalPlayer)
 			Turret.transform.Rotate (0.0f, 0.0f,TurretturnSpeed * Time.deltaTime);
-		if (Input.GetKey (KeyCode.UpArrow) && isLocalPlayer) {
+		if (Input.GetKey (KeyCode.UpArrow) && owner.isLocalPlayer) {
 			//print (transform.localEulerAngles.x);
 			if (Barrel.transform.localEulerAngles.x <= 18 || Barrel.transform.localEulerAngles.x > 340) {
 				Barrel.transform.Rotate (-BarrelturnSpeed * Time.deltaTime,0.0f,0.0f);
@@ -84,14 +86,14 @@ public class Movement : NetworkBehaviour {
 		}
 
 				
-		if (Input.GetKey (KeyCode.DownArrow) && isLocalPlayer) {
+		if (Input.GetKey (KeyCode.DownArrow) && owner.isLocalPlayer) {
 			//print (transform.localEulerAngles.x);
 			if (Barrel.transform.localEulerAngles.x < 16 || Barrel.transform.localEulerAngles.x >= 330) {
 				Barrel.transform.Rotate (BarrelturnSpeed * Time.deltaTime, 0.0f, 0.0f);
 			}
 		}
 		
-		if(Input.GetKey(KeyCode.O) && isLocalPlayer)
+		if(Input.GetKey(KeyCode.O) && owner.isLocalPlayer)
 		{
 			if(startTime + holdTime <= Time.time && reset == true)
 			{
@@ -102,22 +104,22 @@ public class Movement : NetworkBehaviour {
 				disableTimer = Time.time;
 			}
 		}
-		if(MoveEnabled == false && isLocalPlayer)
+		if(MoveEnabled == false && owner.isLocalPlayer)
 		{
 			if(disableTimer + disableTime <= Time.time)
 			{
 				MoveEnabled = true;
 			}
 		}
-		if (PowerupTimer <= 0 && isLocalPlayer)
+		if (PowerupTimer <= 0 && owner.isLocalPlayer)
         {
             moveSpeed = NormalMoveSpeed;
 			turnSpeed = NormalTurnSpeed;
-        } else if(PowerupTimer > 0 && isLocalPlayer){
+        } else if(PowerupTimer > 0 && owner.isLocalPlayer){
 			PowerupTimer -= Time.deltaTime;
 			
 		}
-		if (Input.GetKeyDown (KeyCode.Z) && isLocalPlayer) {
+		if (Input.GetKeyDown (KeyCode.Z) && owner.isLocalPlayer) {
 			if (camPosition == true) {
 				Playercamera.transform.position = Cam2.transform.position;
 				Playercamera.transform.rotation = Cam2.transform.rotation;
@@ -139,7 +141,7 @@ public class Movement : NetworkBehaviour {
 	
 	void OnCollisionEnter(Collision collision){
 		
-		if (collision.gameObject.tag == "SpeedPowerup" && isLocalPlayer)
+		if (collision.gameObject.tag == "SpeedPowerup" && owner.isLocalPlayer)
 		{
 			moveSpeed = PowerupMoveSpeed;
 			turnSpeed = PowerupTurnSpeed;
@@ -149,6 +151,6 @@ public class Movement : NetworkBehaviour {
 		
 	}
 	public bool ISPlayer(){
-		return isLocalPlayer;
+		return owner.isLocalPlayer;
 	}
 }

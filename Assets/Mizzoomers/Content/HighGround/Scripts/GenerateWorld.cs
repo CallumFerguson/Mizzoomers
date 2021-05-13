@@ -9,23 +9,30 @@ public class GenerateWorld : NetworkBehaviour
 {
     public GameObject blockPrefab;
 
-    [SyncVar] private int _seed;
+    [SyncVar(hook = nameof(SetSeed))] private int _seed;
 
-    public override void OnStartServer()
+    private void SetSeed(int oldSeed, int newSeed)
+    {
+        CreateWorld();
+    }
+
+    [Server]
+    public void ServerSetSeed(int seed)
+    {
+        var oldSeed = _seed;
+        _seed = seed;
+        if (!isClient)
+        {
+            SetSeed(oldSeed, _seed);
+        }
+    }
+    
+    [Server]
+    public void ServerSetSeed()
     {
         System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         int cur_time = (int) (System.DateTime.UtcNow - epochStart).TotalSeconds;
-        _seed = cur_time;
-
-        if (isServer && !isClient)
-        {
-            CreateWorld();
-        }
-    }
-
-    public override void OnStartClient()
-    {
-        CreateWorld();
+        ServerSetSeed(cur_time);
     }
 
     public override void OnStopClient()

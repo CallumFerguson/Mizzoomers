@@ -435,6 +435,10 @@
                 <e p="WallMovable.cs" t="Include" />
               </e>
             </e>
+            <e p="Shared" t="Include">
+              <e p="MinigameManager.cs" t="Include" />
+              <e p="MinigamePlayer.cs" t="Include" />
+            </e>
             <e p="SnowballFight" t="Include">
               <e p="Scripts" t="Include">
                 <e p="AnimationController.cs" t="Include" />

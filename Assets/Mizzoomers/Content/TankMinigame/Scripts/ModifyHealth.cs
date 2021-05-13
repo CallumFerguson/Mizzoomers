@@ -7,6 +7,8 @@ using System;
 
 public class ModifyHealth : NetworkBehaviour
 {
+	public NetworkIdentity owner;
+	
 	public Text HealthText;
 	public float health;
 	public float PowerupTimer;
@@ -91,11 +93,11 @@ public class ModifyHealth : NetworkBehaviour
 	}
 	void OnCollisionEnter(Collision collision){
 		
-		if (collision.gameObject.tag == "ArmorPowerup" && isLocalPlayer)
+		if (collision.gameObject.tag == "ArmorPowerup" && owner.isLocalPlayer)
 		{
 			PowerupTimer = 30;
 			armor = .5f;
-		} else if(collision.gameObject.tag == "HealthPowerup" && healthTimer <= 0 && isLocalPlayer){
+		} else if(collision.gameObject.tag == "HealthPowerup" && healthTimer <= 0 && owner.isLocalPlayer){
 			healthTimer = 1;
 			ChangeHealth(10);
 			

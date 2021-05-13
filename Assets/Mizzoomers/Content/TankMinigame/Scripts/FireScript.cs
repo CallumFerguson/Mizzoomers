@@ -7,6 +7,8 @@ using Mirror;
 
 public class FireScript : NetworkBehaviour
 {
+	public NetworkIdentity owner;
+	
     // Start is called before the first frame update
     public GameObject FiringTank;
     public Transform EndOfBarrel;
@@ -40,7 +42,7 @@ public class FireScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("space") && canFire == true && isLocalPlayer)
+        if (Input.GetKey("space") && canFire == true && owner.isLocalPlayer)
         {
 			canFire = false;
 			FiringTank = gameObject;
@@ -104,7 +106,7 @@ public class FireScript : NetworkBehaviour
 	
 	void OnCollisionEnter(Collision collision){
 		
-		if (collision.gameObject.tag == "CannonPowerup" && isLocalPlayer)
+		if (collision.gameObject.tag == "CannonPowerup" && owner.isLocalPlayer)
 		{
 			Damage = PowerupDamage;
 			PowerupTimer = 30;

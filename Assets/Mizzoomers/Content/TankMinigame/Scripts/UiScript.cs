@@ -6,6 +6,8 @@ using Mirror;
 
 public class UiScript : NetworkBehaviour
 {
+	public NetworkIdentity owner;
+	
 	public GameObject UI;
 	public GameObject Player;
 	public Text HealthText;
@@ -17,7 +19,7 @@ public class UiScript : NetworkBehaviour
     void Start()
     {
         UI.SetActive(false);
-		if(isLocalPlayer){
+		if(owner.isLocalPlayer){
 			UI.SetActive(true);
 			Player = gameObject;
 		}
