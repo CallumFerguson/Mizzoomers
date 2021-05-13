@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class ModifyHealth : NetworkBehaviour
 {
@@ -16,6 +17,8 @@ public class ModifyHealth : NetworkBehaviour
 	public GameObject Explosion;
 	public GameObject Fire;
 	public GameObject Player;
+	
+	//public List<GameObject> StartPositions = new List<GameObject>();
 	GameObject explode;
 	GameObject fire;
 	public bool dead;
@@ -32,6 +35,7 @@ public class ModifyHealth : NetworkBehaviour
 		PowerupTimer = 0;
 		dead = false;
 		healthTimer = 0;
+		
 		
     }
 
@@ -52,7 +56,7 @@ public class ModifyHealth : NetworkBehaviour
 		}
 		if(health <= 0 && dead == false){
 			DIE();
-			deathTimer = 20;
+			deathTimer = 15;
 			dead = true;
 		} 
 		if(dead == true)
@@ -66,13 +70,16 @@ public class ModifyHealth : NetworkBehaviour
 			}
 			
 			if(deathTimer <= 0){
-				Destroy(Player);
+				health=100;
+				Respawn();
 			}
 			
 		}
+		
     }
 	public void ChangeHealth(float change)
 	{
+		Debug.Log("ChangeHealth");
 		if(change < 0){
 			change = change * armor;
 		}
@@ -96,6 +103,19 @@ public class ModifyHealth : NetworkBehaviour
 		
 		
 	}
+	void Respawn(){
+		GameObject[] StartPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+		int numberOfPoints = StartPoints.Length;
+		System.Random rnd  = new System.Random();
+		int spawnPoint = rnd.Next(0,numberOfPoints);
+		gameObject.transform.position = StartPoints[spawnPoint].transform.position;
+		dead = false;
+		Player.GetComponent<Movement>().enabled = true;
+		Player.GetComponent<FireScript>().enabled = true;
+		Door1.transform.Rotate(0.0f,0.0f,90.0f);
+		Door2.transform.Rotate(0.0f,0.0f,-90.0f);
+		//DoorTop.transform.Rotate(-19.353f,-163.293f,137.831f);
+	}
 	void DIE(){
 		Player.tag = "DeadPlayer";
 		
@@ -103,7 +123,7 @@ public class ModifyHealth : NetworkBehaviour
 		fire = Instantiate(Fire,transform.position , transform.rotation);
 		Door1.transform.Rotate(0.0f,0.0f,-90.0f);
 		Door2.transform.Rotate(0.0f,0.0f,90.0f);
-		DoorTop.transform.Rotate(-90.0f,0.0f,0.0f);
+		//DoorTop.transform.Rotate(-90.0f,0.0f,0.0f);
 		Player.GetComponent<Movement>().enabled = false;
 		Player.GetComponent<FireScript>().enabled = false;
 		
@@ -111,6 +131,14 @@ public class ModifyHealth : NetworkBehaviour
 		//GameObject barrelBase = turret.transform.GetChild(2).gameObject;
 		//GameObject barrel = barrelBase.transform.GetChild(0).gameObject;
 		//barrel.GetComponent<BarrelMovement>().enabled = false;
+		
+	}
+	[Command]
+	void DieAnimations(){
+		explode = Instantiate(Explosion,transform.position, transform.rotation);
+		fire = Instantiate(Fire,transform.position , transform.rotation);
+		NetworkServer.Spawn(explode);
+		NetworkServer.Spawn(fire);
 		
 	}
 }

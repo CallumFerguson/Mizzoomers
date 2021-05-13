@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using Mirror;
 
 public class FireScript : NetworkBehaviour
@@ -32,6 +33,7 @@ public class FireScript : NetworkBehaviour
         timeLeft = 0;
 		PowerupTimer = 0;
 		Damage = NormalDamage;
+		
             
     }
 
@@ -41,16 +43,20 @@ public class FireScript : NetworkBehaviour
         if (Input.GetKey("space") && canFire == true && isLocalPlayer)
         {
 			canFire = false;
-            GameObject clone;
-            GameObject flash;
-            clone = Instantiate(Projectile, EndOfBarrel.position, EndOfBarrel.rotation);
-            flash = Instantiate(MuzzelExplosion, EndOfBarrel.position, EndOfBarrel.rotation);
-            ProjectileScript Projectilescript = clone.GetComponent<ProjectileScript>();
-            Projectilescript.firingTank = FiringTank;
-            Projectilescript.MuzzelFlash = flash;
-			Projectilescript.damage = Damage;
-            Rigidbody clonebody = clone.GetComponent<Rigidbody>();
-            clonebody.velocity = EndOfBarrel.TransformDirection(Vector3.forward * ProjectileSpeed);
+			FiringTank = gameObject;
+            //GameObject clone;
+            //GameObject flash;
+            //clone = NetworkManager.Instantiate(Projectile, EndOfBarrel.position, EndOfBarrel.rotation);
+			//NetworkServer.Spawn(clone);
+			
+			CmdSpawnProjectile(FiringTank, Damage);
+            //flash = Instantiate(MuzzelExplosion, EndOfBarrel.position, EndOfBarrel.rotation);
+            //ProjectileScript Projectilescript = clone.GetComponent<ProjectileScript>();
+            //Projectilescript.firingTank = FiringTank;
+            //Projectilescript.MuzzelFlash = flash;
+			//Projectilescript.damage = Damage;
+            //Rigidbody clonebody = clone.GetComponent<Rigidbody>();
+            //clonebody.velocity = EndOfBarrel.TransformDirection(Vector3.forward * ProjectileSpeed);
             
 
             timerRunning = true;
@@ -78,6 +84,24 @@ public class FireScript : NetworkBehaviour
 		ScoreText.text = "Score: " + PlayerScore.ToString();
 		
     }
+	
+	[Command]
+	void CmdSpawnProjectile(GameObject FiringPTank, int DamageDealt){
+		GameObject clone;
+		GameObject flash;
+		clone = Instantiate(Projectile, EndOfBarrel.position, EndOfBarrel.rotation);
+		flash = Instantiate(MuzzelExplosion, EndOfBarrel.position, EndOfBarrel.rotation);
+		ProjectileScript Projectilescript = clone.GetComponent<ProjectileScript>();
+        Projectilescript.firingTank = FiringPTank;
+        Projectilescript.MuzzelFlash = flash;
+		Projectilescript.damage = DamageDealt;
+        Rigidbody clonebody = clone.GetComponent<Rigidbody>();
+        clonebody.velocity = EndOfBarrel.TransformDirection(Vector3.forward * ProjectileSpeed);
+		NetworkServer.Spawn(clone);
+		NetworkServer.Spawn(flash);
+		
+	}
+	
 	void OnCollisionEnter(Collision collision){
 		
 		if (collision.gameObject.tag == "CannonPowerup" && isLocalPlayer)
@@ -90,6 +114,13 @@ public class FireScript : NetworkBehaviour
 	}
 	public void Score(int score){
 		PlayerScore += score;
+		UpdateServerScoreForTank(gameObject, PlayerScore);
+		
+	}
+	[Command]
+	void UpdateServerScoreForTank(GameObject Tank, int TankScore){
+		GameObject Affectedplayer = NetworkIdentity.spawned[Tank.GetComponent<NetworkIdentity>().netId].gameObject;
+		Affectedplayer.GetComponent<FireScript>().PlayerScore = TankScore;
 	}
 
 }

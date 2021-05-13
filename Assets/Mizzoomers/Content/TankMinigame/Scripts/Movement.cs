@@ -33,6 +33,7 @@ public class Movement : NetworkBehaviour {
 	
 	
 	void Start () {
+		
 		startTime = 0f;
 		reset = false;
 		enabled = true;
@@ -41,6 +42,11 @@ public class Movement : NetworkBehaviour {
 		Playercamera.transform.position = Cam1.transform.position;
 		Playercamera.transform.rotation = Cam1.transform.rotation;
 		Playercamera.fieldOfView = 60.0f;
+		
+		Playercamera.enabled = false;
+		if(isLocalPlayer){
+			Playercamera.enabled = true;
+		}
 	}
 	
 	// Update is called once per frame

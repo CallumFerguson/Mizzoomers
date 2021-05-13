@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Networking;
+using Mirror;
 
-public class PowerupMovement : MonoBehaviour
+public class PowerupMovement : NetworkBehaviour
 {
 	
 	public float Cycle;
