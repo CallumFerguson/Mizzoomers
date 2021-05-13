@@ -48,6 +48,9 @@ public class MinigamePlayer : NetworkBehaviour
                 player.GetComponent<ModifyHealth>().owner = netIdentity;
                 player.GetComponent<UiScript>().owner = netIdentity;
                 break;
+            case 2:
+                player.GetComponent<PlayerController>().owner = netIdentity;
+                break;
             default:
                 Debug.LogError("Uknown index: " + index);
                 break;

@@ -45,6 +45,10 @@ public class MinigameManager : NetworkBehaviour
         {
             ChangeGame(1);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            ChangeGame(2);
+        }
     }
 
     private void ChangeGame(int index)

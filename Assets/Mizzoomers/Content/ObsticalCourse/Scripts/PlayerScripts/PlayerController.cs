@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
+    [SyncVar] public NetworkIdentity owner;
+    
     public static PlayerController localPlayer;
     private Rigidbody _body;
     public Transform cam;
@@ -27,6 +30,9 @@ public class PlayerController : MonoBehaviour
     private int _isJumpingHash;
     private float _inAirTimer;
 
+    public Transform follow;
+    public Transform lookAt;
+
     /*    private int _isStunnedHash;*/
 
     /*    private float timeSinceStunned;
@@ -35,10 +41,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        //Lock and hide cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         _body = GetComponent<Rigidbody>();
         _playerMask = LayerMask.GetMask("Player");
         _allButPlayerMask = ~_playerMask;
@@ -48,8 +50,35 @@ public class PlayerController : MonoBehaviour
         _isJumpingHash = Animator.StringToHash("isJumping");
        
     }
+    
+    private IEnumerator LookForStartPosition()
+    {
+        Transform startPosition;
+        do
+        {
+            startPosition = NetworkManagerGame.singleton.GetStartPosition();
+            yield return null;
+        } while (startPosition == null);
+        transform.position = startPosition.position;
+        transform.rotation = startPosition.rotation;
+    }
 
-/*    public override void OnStartClient()
+    public override void OnStartClient()
+    {
+        if (!owner.isLocalPlayer)
+        {
+            return;
+        }
+        
+        cam = GameObject.Find("ObstacleCamera").transform;
+        StartCoroutine(LookForStartPosition());
+
+        var look = GameObject.Find("TPCamera").GetComponent<CinemachineFreeLook>();
+        look.Follow = follow;
+        look.LookAt = lookAt;
+    }
+
+    /*    public override void OnStartClient()
     {
         base.OnStartClient();
 
@@ -72,6 +101,21 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }*/
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if (!owner.isLocalPlayer)
+        {
+            return;
+        }
 
         var grounded = Grounded();
         _playerAnimator.SetBool(_inAirHash, !grounded);
@@ -112,6 +156,11 @@ public class PlayerController : MonoBehaviour
                 {
                     return;
                 }*/
+        
+        if (!owner.isLocalPlayer)
+        {
+            return;
+        }
 
         var targetDirection = GetTargetDirection();
         targetDirection.y = 0;
