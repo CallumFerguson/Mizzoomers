@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - FxTemporaire
+  - ArmorPowerup
+  - SpeedPowerup
+  - CannonPowerup
+  - HealthPowerup
+  - Projectile
+  - SpawnPoint
+  - DeadPlayer
   layers:
   - Default
   - TransparentFX
@@ -14,8 +21,8 @@ TagManager:
   - UI
   - 
   - 
-  - Player
-  - Block
+  - 
+  - 
   - 
   - 
   - 
