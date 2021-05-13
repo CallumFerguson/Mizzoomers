@@ -11,12 +11,11 @@ public class CameraFollow : MonoBehaviour
         if (target)
         {
             var targetPosition = target.position;
-            // targetPosition.y = 1f;
             transform.position = targetPosition;
         }
-        else if (PlayerController.localPlayer)
+        else if (HighGroundPlayerController.localPlayer)
         {
-            target = PlayerController.localPlayer.transform;
+            target = HighGroundPlayerController.localPlayer.transform;
         }
     }
 }
