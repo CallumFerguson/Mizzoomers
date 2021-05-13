@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "442839377319",
+    "project_id": "capstone-2021-42e79",
+    "storage_bucket": "capstone-2021-42e79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442839377319:android:1118e77fd54ed7c160c282",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.Mizzoomers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "442839377319-008enjfr97nuucifmg370n9pdb8gfkoo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdmHPKiHPA-qQRH7pzwIxd2JHL2yWQjSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "442839377319-008enjfr97nuucifmg370n9pdb8gfkoo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -435,6 +435,14 @@
                 <e p="WallMovable.cs" t="Include" />
               </e>
             </e>
+            <e p="SnowballFight" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="AnimationController.cs" t="Include" />
+                <e p="HealthBar.cs" t="Include" />
+                <e p="Snowball.cs" t="Include" />
+                <e p="ThirdPersonMovement.cs" t="Include" />
+              </e>
+            </e>
             <e p="TankMinigame" t="Include">
               <e p="Imported Packages" t="Include">
                 <e p="JMO Assets" t="Include">
@@ -512,6 +520,7 @@
               </e>
             </e>
           </e>
+          <e p="FirebaseManager.cs" t="Include" />
         </e>
         <e p="RotatorCylinder.cs" t="Include" />
         <e p="Smooth Sync" t="Include">
