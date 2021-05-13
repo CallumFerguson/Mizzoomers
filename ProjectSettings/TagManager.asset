@@ -12,6 +12,13 @@ TagManager:
   - Projectile
   - SpawnPoint
   - DeadPlayer
+  - pendulum
+  - rollingBall
+  - respawner
+  - SpinDisk
+  - Cylinder
+  - Wall
+  - timer
   layers:
   - Default
   - TransparentFX
