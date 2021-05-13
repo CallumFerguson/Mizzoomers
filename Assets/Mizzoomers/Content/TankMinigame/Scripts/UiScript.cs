@@ -6,7 +6,7 @@ using Mirror;
 
 public class UiScript : NetworkBehaviour
 {
-	public NetworkIdentity owner;
+	[SyncVar] public NetworkIdentity owner;
 	
 	public GameObject UI;
 	public GameObject Player;

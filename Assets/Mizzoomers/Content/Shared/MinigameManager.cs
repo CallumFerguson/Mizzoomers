@@ -12,6 +12,8 @@ public class MinigameManager : NetworkBehaviour
     public GenerateWorld generateWorld;
 
     public Transform minigames;
+    
+    public GameObject cam;
 
     private void Start()
     {
@@ -19,6 +21,11 @@ public class MinigameManager : NetworkBehaviour
         // {
         //     minigames.GetChild(i).gameObject.SetActive(false);
         // }
+    }
+
+    public override void OnStopServer()
+    {
+        cam.SetActive(true);
     }
 
     // Update is called once per frame
@@ -57,6 +64,8 @@ public class MinigameManager : NetworkBehaviour
 
     private void SetCurrentGameIndex(int oldValue, int newValue)
     {
+        cam.SetActive(false);
+        
         for (int i = 0; i < minigames.childCount; i++)
         {
             minigames.GetChild(i).gameObject.SetActive(false);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -24,9 +25,22 @@ public class PlayerManager : NetworkBehaviour
 		RoundTimer = 180;
     }
 
+    private void OnEnable()
+    {
+	    if (isServer)
+	    {
+		    players.Clear();
+	    }
+    }
+
     // Update is called once per frame
     void Update()
     {
+	    if (!isServer)
+	    {
+		    return;
+	    }
+	    
 		int i = 0;
 		List<GameObject> fetchedPlayers = new List<GameObject>();
 		

@@ -63,7 +63,17 @@ public class HighGroundPlayerController : NetworkBehaviour
 
         localPlayer = this;
 
-        var startPosition = NetworkManagerGame.singleton.GetStartPosition();
+        StartCoroutine(LookForStartPosition());
+    }
+
+    private IEnumerator LookForStartPosition()
+    {
+        Transform startPosition;
+        do
+        {
+            startPosition = NetworkManagerGame.singleton.GetStartPosition();
+            yield return null;
+        } while (startPosition == null);
         transform.position = startPosition.position;
         transform.rotation = startPosition.rotation;
     }

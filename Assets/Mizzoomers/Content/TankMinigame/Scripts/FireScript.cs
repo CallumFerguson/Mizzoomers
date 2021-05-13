@@ -7,7 +7,7 @@ using Mirror;
 
 public class FireScript : NetworkBehaviour
 {
-	public NetworkIdentity owner;
+	[SyncVar] public NetworkIdentity owner;
 	
     // Start is called before the first frame update
     public GameObject FiringTank;

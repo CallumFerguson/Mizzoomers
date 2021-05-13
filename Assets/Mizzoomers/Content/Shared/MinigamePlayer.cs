@@ -10,6 +10,13 @@ public class MinigamePlayer : NetworkBehaviour
 
     public override void OnStartServer()
     {
+        StartCoroutine(WaitThenSpawn());
+    }
+
+    private IEnumerator WaitThenSpawn()
+    {
+        yield return new WaitForSeconds(0.5f);
+        
         var manager = GameObject.FindObjectOfType<MinigameManager>();
         if (manager && manager.currentGameIndex > 0)
         {

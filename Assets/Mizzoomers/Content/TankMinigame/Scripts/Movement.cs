@@ -6,7 +6,7 @@ using Mirror;
 public class Movement : NetworkBehaviour
 {
 
-	public NetworkIdentity owner;
+	[SyncVar] public NetworkIdentity owner;
 	
 	// Use this for initialization
 	public float moveSpeed;
@@ -34,8 +34,8 @@ public class Movement : NetworkBehaviour
 	public Camera Playercamera;
 	bool camPosition;
 
-	void Start () {
-		
+	public override void OnStartClient()
+	{
 		startTime = 0f;
 		reset = false;
 		enabled = true;
@@ -44,13 +44,35 @@ public class Movement : NetworkBehaviour
 		Playercamera.transform.position = Cam1.transform.position;
 		Playercamera.transform.rotation = Cam1.transform.rotation;
 		Playercamera.fieldOfView = 60.0f;
-		
-		Playercamera.enabled = false;
+
+		Playercamera.gameObject.SetActive(false);
 		if(owner.isLocalPlayer){
-			Playercamera.enabled = true;
+			Playercamera.gameObject.SetActive(true);
 		}
+		
+		if (!owner.isLocalPlayer)
+		{
+			return;
+		}
+
+		StartCoroutine(LookForStartPosition());
 	}
 	
+	private IEnumerator LookForStartPosition()
+	{
+		Transform startPosition = null;
+		do
+		{
+			if (NetworkManagerGame.singleton)
+			{
+				startPosition = NetworkManagerGame.singleton.GetStartPosition();
+			}
+			yield return null;
+		} while (startPosition == null);
+		transform.position = startPosition.position;
+		transform.rotation = startPosition.rotation;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		

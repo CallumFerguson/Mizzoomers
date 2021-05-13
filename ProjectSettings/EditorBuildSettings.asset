@@ -5,10 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/Mizzoomers/Scenes/Combined.unity
+    guid: 39923743aa6979e468062c7042ac5e9d
   - enabled: 0
     path: Assets/Mizzoomers/Scenes/Main.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Mizzoomers/Scenes/TankScene.unity
     guid: 576548bcc198d8f42bc22f8846259585
   m_configObjects: {}

@@ -7,7 +7,7 @@ using System;
 
 public class ModifyHealth : NetworkBehaviour
 {
-	public NetworkIdentity owner;
+	[SyncVar] public NetworkIdentity owner;
 	
 	public Text HealthText;
 	public float health;
