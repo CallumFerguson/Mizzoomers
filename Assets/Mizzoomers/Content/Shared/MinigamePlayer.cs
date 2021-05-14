@@ -51,6 +51,10 @@ public class MinigamePlayer : NetworkBehaviour
             case 2:
                 player.GetComponent<PlayerController>().owner = netIdentity;
                 break;
+            case 3:
+                player.GetComponent<ThirdPersonMovement>().owner = netIdentity;
+                player.GetComponent<Snowball>().owner = netIdentity;
+                break;
             default:
                 Debug.LogError("Uknown index: " + index);
                 break;

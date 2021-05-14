@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Mirror;
 using UnityEngine;
 
-public class ThirdPersonMovement : MonoBehaviour
+public class ThirdPersonMovement : NetworkBehaviour
 {
+    [SyncVar] public NetworkIdentity owner;
+    
     public CharacterController controller;
     
 
@@ -31,7 +34,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public int currentHealth = 0;
     public int maxHealth = 100;
 
-    public HealthBar healthBar;
+    // public HealthBar healthBar;
     public CinemachineFreeLook freeLook;
 
     public Snowball snowball;
@@ -43,14 +46,50 @@ public class ThirdPersonMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!owner.isLocalPlayer)
+        {
+            return;
+        }
+        
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        // healthBar.SetMaxHealth(maxHealth);
     }
 
+    public override void OnStartClient()
+    {
+        if (!owner.isLocalPlayer)
+        {
+            return;
+        }
+
+        cam = GameObject.Find("Main Camera Snow").transform;
+        freeLook = GameObject.Find("Third Person Camera").GetComponent<CinemachineFreeLook>();
+        freeLook.Follow = transform;
+        freeLook.LookAt = transform;
+
+        StartCoroutine(LookForStartPosition());
+    }
+
+    private IEnumerator LookForStartPosition()
+    {
+        Transform startPosition;
+        do
+        {
+            startPosition = NetworkManagerGame.singleton.GetStartPosition();
+            yield return null;
+        } while (startPosition == null);
+        transform.position = startPosition.position;
+        transform.rotation = startPosition.rotation;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        if (!owner.isLocalPlayer)
+        {
+            return;
+        }
+        
         //Debug.Log(currentHealth);
         // create a sphere at bottom of player to see if it hits the ground
         isGrounded = Physics.CheckBox(groundCheck.position, groundCheck.localScale / 2f, groundCheck.rotation);
@@ -127,6 +166,11 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
+        if (!owner.isLocalPlayer)
+        {
+            return;
+        }
+        
         if (col.gameObject.name == "Snowball 1")
         {
             Damage(20);
@@ -156,17 +200,11 @@ public class ThirdPersonMovement : MonoBehaviour
     public void Damage(int damage)
     {
         currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
+        // healthBar.SetHealth(currentHealth);
     }
 
     public int GetCurrentHealth()
     {
         return currentHealth;
     }
-
-    
-
-
-
-
 }

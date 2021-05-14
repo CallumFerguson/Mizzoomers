@@ -12,7 +12,7 @@ public class NetworkManagerGame : NetworkManager
         base.Start();
 
 #if !UNITY_SERVER
-        // StartHost();
+        StartHost();
         // StartClient();
 #endif
     }

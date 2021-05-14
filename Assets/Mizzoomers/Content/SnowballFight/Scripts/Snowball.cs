@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class Snowball : MonoBehaviour
+public class Snowball : NetworkBehaviour
 {
-
+    [SyncVar] public NetworkIdentity owner;
+    
     // public Rigidbody rb;
     public GameObject snowball;
 
@@ -15,54 +17,49 @@ public class Snowball : MonoBehaviour
 
     bool canFire = true;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1") && canFire)
+        if (!owner.isLocalPlayer)
         {
-            StartCoroutine(ThrowSnowball());
+            return;
         }
-
         
-
+        if (Input.GetButtonDown("Fire1") && canFire && firePoint)
+        {
+            canFire = false;
+            CmdThrowSnowball(transform.TransformDirection(Vector3.forward * sbSpeed), firePoint.position, firePoint.rotation);
+            StartCoroutine(WaitThenCanFire());
+        }
     }
-
-    IEnumerator ThrowSnowball()
+    
+    private IEnumerator WaitThenCanFire()
     {
-        yield return new WaitForSeconds(0.4f);
-        
-        GameObject sb = Instantiate(snowball, firePoint.position, firePoint.rotation);
-        Rigidbody sbrb = sb.GetComponent<Rigidbody>();
-
-        sbrb.velocity = transform.TransformDirection(Vector3.forward * sbSpeed);
-        canFire = false;
-
-        
-
-        // snowballInstance.AddForce(firePoint.forward * sbSpeed);
-        Destroy(sb, 2.5f);
-
         yield return new WaitForSeconds(0.5f);
         canFire = true;
-
     }
 
-    
-            //Rigidbody snowball;
-           /* GameObject sb = Instantiate(snowball, transform.position, transform.rotation);
-    Rigidbody sbrb = sb.GetComponent<Rigidbody>();
+    [Command]
+    private void CmdThrowSnowball(Vector3 velocity, Vector3 startPos, Quaternion startRot)
+    {
+        StartCoroutine(ThrowSnowball(velocity, startPos, startRot));
+    }
 
-    sbrb.velocity = transform.TransformDirection(Vector3.forward* sbSpeed);
-            // sbrb.velocity = transform.forward * sbSpeed;
-            //sbrb.AddForce(Vector3.forward * sbSpeed);
-            Destroy(sb, 3f);
-           */
+    IEnumerator ThrowSnowball(Vector3 velocity, Vector3 startPos, Quaternion startRot)
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        GameObject sb = Instantiate(snowball, startPos, startRot);
+        Rigidbody sbrb = sb.GetComponent<Rigidbody>();
+
+        sbrb.velocity = velocity;
+        canFire = false;
+        
+        NetworkServer.Spawn(sb);
+
+        // snowballInstance.AddForce(firePoint.forward * sbSpeed);
+        // Destroy(sb, 2.5f);
+        yield return new WaitForSeconds(2.5f);
+        NetworkServer.Destroy(sb);
+    }
 }
-

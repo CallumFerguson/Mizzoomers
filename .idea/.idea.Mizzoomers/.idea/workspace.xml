@@ -2,14 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d78ae2ab-4041-416c-9e7c-4c23b23fa941" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mizzoomers/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/ObsticalCourse/Scripts/GameManager/EndGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/ObsticalCourse/Scripts/GameManager/EndGame.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/ObsticalCourse/Scripts/PlayerScripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/ObsticalCourse/Scripts/PlayerScripts/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigamePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigamePlayer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigamePlayer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigamePlayer.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Prefabs/Snowball 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Prefabs/Snowball 1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/Snowball.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/Snowball.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/ThirdPersonMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/ThirdPersonMovement.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/Combined.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/Combined.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/ObsticalScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/ObsticalScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/SnowScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mizzoomers/Scenes/SnowScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,11 +48,13 @@
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/TankMinigame/Scripts/UiScript.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/TankMinigame/Scripts/Movement.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/TankMinigame/Scripts/PlayerManager.cs" />
-      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigameManager.cs" />
-      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigamePlayer.cs" />
-      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/ObsticalCourse/Scripts/PlayerScripts/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/ObsticalCourse/Scripts/GameManager/EndGame.cs" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/ObsticalCourse/Scripts/PlayerScripts/PlayerController.cs" />
       <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/HighGround/Scripts/NetworkManagerGame.cs" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigameManager.cs" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/ThirdPersonMovement.cs" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/Shared/MinigamePlayer.cs" />
+      <option value="$PROJECT_DIR$/Assets/Mizzoomers/Content/SnowballFight/Scripts/Snowball.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1nqIzRFVBPMMa26K1BAt52EYfO3" />
@@ -111,7 +116,7 @@
       <workItem from="1620929021256" duration="1660000" />
       <workItem from="1620931501027" duration="593000" />
       <workItem from="1620933039510" duration="98000" />
-      <workItem from="1620933406837" duration="10081000" />
+      <workItem from="1620933406837" duration="12448000" />
     </task>
     <servers />
   </component>
